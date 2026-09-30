@@ -1,0 +1,1427 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#b94a24">
+<meta name="description" content="Jornada de Autoconhecimento – UC1 Desenvolvimento Socioemocional">
+<title>Jornada de Autoconhecimento | UC1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fbf6ee;
+  --surface:#fffdfa;
+  --surface-2:#f5eadf;
+  --text:#302a26;
+  --muted:#6b625d;
+  --brand:#b94a24;
+  --brand-dark:#8e3519;
+  --brand-soft:#f5d7c8;
+  --line:#e4d7ca;
+  --success:#34765a;
+  --warning:#9b6816;
+  --shadow:0 14px 40px rgba(80,52,35,.10);
+  --radius:22px;
+  --font-scale:1;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#171513;
+    --surface:#211e1b;
+    --surface-2:#2a2521;
+    --text:#f8f1e9;
+    --muted:#c9bdb2;
+    --line:#4a4038;
+    --brand:#e57b54;
+    --brand-dark:#ff9a72;
+    --brand-soft:#4a2b20;
+    --shadow:0 16px 42px rgba(0,0,0,.35);
+  }
+}
+*{box-sizing:border-box}
+html{font-size:calc(16px * var(--font-scale));scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:"Nunito",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  line-height:1.55;
+}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,a:focus-visible{
+  outline:4px solid #ffbf47;outline-offset:3px;
+}
+.skip-link{
+  position:fixed;left:12px;top:-80px;background:#000;color:#fff;padding:12px 16px;
+  z-index:9999;border-radius:10px;text-decoration:none;
+}
+.skip-link:focus{top:12px}
+.accessibility{
+  position:sticky;top:0;z-index:80;background:color-mix(in srgb,var(--surface) 94%,transparent);
+  border-bottom:1px solid var(--line);backdrop-filter:blur(10px);
+}
+.access-inner{
+  max-width:1180px;margin:auto;display:flex;gap:8px;align-items:center;padding:9px 14px;overflow-x:auto;
+}
+.access-inner button,.access-inner select{
+  min-height:44px;border:1px solid var(--line);background:var(--surface);color:var(--text);
+  border-radius:12px;padding:8px 12px;font-weight:800;white-space:nowrap;
+}
+.access-label{font-weight:900;color:var(--brand);margin-right:auto;white-space:nowrap}
+body.high-contrast{--bg:#000;--surface:#000;--surface-2:#111;--text:#fff;--muted:#fff;--line:#ffe600;--brand:#ffe600;--brand-dark:#ffe600;--brand-soft:#161600}
+body.high-contrast .btn-primary{background:#ffe600!important;color:#000!important}
+body.readable,body.readable *{font-family:Verdana,Arial,sans-serif!important;letter-spacing:.04em;line-height:1.75}
+.app-shell{max-width:1180px;margin:0 auto;padding:20px 16px 70px}
+.login-shell{max-width:900px;margin:32px auto}
+.hero{
+  background:var(--surface);border:1px solid var(--line);border-radius:30px;padding:32px;
+  box-shadow:var(--shadow);position:relative;overflow:hidden;
+}
+.hero:after{
+  content:"";position:absolute;width:260px;height:260px;border-radius:50%;
+  right:-90px;top:-100px;background:var(--brand-soft);opacity:.7;pointer-events:none
+}
+.eyebrow{font-size:.85rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:var(--brand)}
+h1,h2,h3{line-height:1.15;margin:0 0 12px}
+h1{font-size:clamp(2rem,6vw,3.6rem);max-width:760px}
+h2{font-size:clamp(1.55rem,4vw,2.35rem)}
+h3{font-size:1.2rem}
+.lead{font-size:1.08rem;color:var(--muted);max-width:760px}
+.grid{display:grid;gap:16px}
+.grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.card{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:20px;box-shadow:0 8px 24px rgba(70,40,20,.06)
+}
+.notice{background:var(--surface-2);border-left:5px solid var(--brand);border-radius:14px;padding:16px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field{display:flex;flex-direction:column;gap:7px;margin:12px 0}
+label,.legend-title{font-weight:900}
+input[type=text],textarea{
+  width:100%;background:var(--surface);color:var(--text);border:2px solid var(--line);
+  border-radius:14px;padding:13px 14px;min-height:48px
+}
+textarea{min-height:130px;resize:vertical}
+.checkline{display:flex;gap:10px;align-items:flex-start;margin:16px 0}
+.checkline input{width:22px;height:22px;margin-top:2px}
+.btn{
+  border:0;border-radius:14px;padding:12px 17px;min-height:46px;font-weight:900;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none
+}
+.btn-primary{background:var(--brand);color:#fff}
+.btn-primary:hover{background:var(--brand-dark)}
+.btn-secondary{background:var(--surface-2);color:var(--text);border:1px solid var(--line)}
+.btn-ghost{background:transparent;color:var(--brand);border:1px solid var(--brand)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.topbar{
+  display:flex;gap:14px;align-items:center;justify-content:space-between;margin:18px 0;
+}
+.user-chip{display:flex;align-items:center;gap:10px}
+.avatar-mini{
+  width:44px;height:44px;border-radius:50%;background:var(--brand-soft);
+  display:grid;place-items:center;font-size:1.25rem
+}
+.layout{display:grid;grid-template-columns:255px 1fr;gap:20px;align-items:start}
+.sidebar{
+  position:sticky;top:70px;background:var(--surface);border:1px solid var(--line);
+  border-radius:20px;padding:10px;box-shadow:var(--shadow)
+}
+.nav-btn{
+  width:100%;border:0;background:transparent;color:var(--text);min-height:48px;border-radius:13px;
+  text-align:left;padding:10px 12px;font-weight:800;display:flex;gap:10px;align-items:center
+}
+.nav-btn:hover,.nav-btn[aria-current=page]{background:var(--brand-soft);color:var(--brand-dark)}
+.content{min-width:0}
+.section{display:none}
+.section.active{display:block}
+.section-head{margin-bottom:18px}
+.progress-wrap{display:flex;gap:12px;align-items:center}
+.progress{
+  height:14px;background:var(--surface-2);border-radius:100px;overflow:hidden;flex:1;border:1px solid var(--line)
+}
+.progress > span{display:block;height:100%;width:0;background:var(--brand);transition:width .3s ease}
+.stars{font-size:1.35rem;letter-spacing:.08em}
+.pill{
+  display:inline-flex;gap:6px;align-items:center;border:1px solid var(--line);
+  background:var(--surface-2);padding:6px 10px;border-radius:999px;font-size:.87rem;font-weight:800
+}
+.pillar{min-height:150px}
+.pillar .icon{font-size:2rem}
+.challenge{background:var(--brand);color:#fff;border-radius:22px;padding:22px}
+.challenge p{margin-bottom:0}
+.trail{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:14px}
+.trail-step{
+  border:1px solid var(--line);background:var(--surface);border-radius:15px;padding:12px;text-align:center;
+  font-size:.88rem;font-weight:800
+}
+.trail-step.done{border-color:var(--brand);background:var(--brand-soft)}
+.question{
+  margin:0 0 16px;background:var(--surface);border:1px solid var(--line);
+  border-radius:18px;padding:18px
+}
+.question legend{padding:0 8px;font-weight:900}
+.read-btn{
+  border:1px solid var(--line);background:var(--surface-2);color:var(--text);
+  min-width:44px;min-height:44px;border-radius:12px;margin-left:8px
+}
+.options{display:grid;gap:10px;margin-top:12px}
+.option{
+  border:2px solid var(--line);border-radius:14px;padding:11px 12px;display:flex;gap:10px;
+  align-items:flex-start;background:var(--surface)
+}
+.option:has(input:checked){border-color:var(--brand);background:var(--brand-soft)}
+.option input{width:20px;height:20px;margin-top:2px}
+.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:12px}
+.scale label{
+  min-height:48px;border:2px solid var(--line);border-radius:12px;display:grid;place-items:center;
+  background:var(--surface);cursor:pointer
+}
+.scale label:has(input:checked){background:var(--brand);color:#fff;border-color:var(--brand)}
+.scale input{position:absolute;opacity:0;pointer-events:none}
+.slider-row{display:grid;grid-template-columns:minmax(130px,1fr) 3fr 46px;gap:12px;align-items:center;margin:12px 0}
+input[type=range]{width:100%;accent-color:var(--brand)}
+.score-bubble{
+  width:46px;height:46px;border-radius:50%;background:var(--brand-soft);
+  display:grid;place-items:center;font-weight:900;color:var(--brand-dark)
+}
+.radar-wrap{display:grid;grid-template-columns:minmax(270px,1fr) 1fr;gap:18px;align-items:center}
+.radar{width:100%;max-width:480px;margin:auto;display:block}
+.result-box{background:var(--surface-2);border-radius:18px;padding:18px;margin-top:16px}
+.bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar > span{display:block;height:100%;background:var(--brand);border-radius:999px}
+.avatar-card{text-align:center}
+.avatar-holder{height:145px;display:grid;place-items:center}
+.avatar-holder svg{max-height:140px;max-width:140px}
+.profile-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.profile-card{
+  background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:14px;text-align:center
+}
+.family-NT{border-top:6px solid #8b5cf6}
+.family-NF{border-top:6px solid #4f9d69}
+.family-SJ{border-top:6px solid #4e7bbd}
+.family-SP{border-top:6px solid #db8b2c}
+.report{
+  background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:22px;margin-bottom:18px
+}
+.report h3{color:var(--brand)}
+.report-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+.table-wrap{overflow:auto}
+table{border-collapse:collapse;width:100%;min-width:650px}
+th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--surface-2)}
+.status{
+  margin:12px 0;padding:12px 14px;border-radius:14px;border:1px solid var(--line);display:none
+}
+.status.show{display:block}
+.status.ok{background:color-mix(in srgb,var(--success) 16%,var(--surface));border-color:var(--success)}
+.status.warn{background:color-mix(in srgb,var(--warning) 14%,var(--surface));border-color:var(--warning)}
+.footer-note{font-size:.9rem;color:var(--muted);margin-top:26px}
+.toast{
+  position:fixed;right:18px;bottom:18px;z-index:120;max-width:360px;padding:14px 16px;border-radius:14px;
+  background:var(--text);color:var(--surface);box-shadow:var(--shadow);transform:translateY(140%);transition:.25s
+}
+.toast.show{transform:translateY(0)}
+.mobile-menu{display:none}
+hr{border:0;border-top:1px solid var(--line);margin:22px 0}
+small,.muted{color:var(--muted)}
+strong{font-weight:900}
+@media(max-width:900px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:static;display:none}
+  .sidebar.open{display:block}
+  .mobile-menu{display:inline-flex}
+  .grid-4,.profile-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .grid-3{grid-template-columns:1fr 1fr}
+  .radar-wrap{grid-template-columns:1fr}
+}
+@media(max-width:620px){
+  .app-shell{padding:12px 10px 60px}
+  .hero{padding:22px 18px;border-radius:22px}
+  .form-row,.grid-2,.grid-3,.grid-4,.profile-grid{grid-template-columns:1fr}
+  .trail{grid-template-columns:1fr}
+  .slider-row{grid-template-columns:1fr 46px}
+  .slider-row label{grid-column:1/-1}
+  .topbar{align-items:flex-start}
+  .access-label{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+@media print{
+  .accessibility,.sidebar,.topbar,.report-actions,.mobile-menu,.no-print{display:none!important}
+  body{background:#fff;color:#000}
+  .app-shell{max-width:none;padding:0}
+  .section{display:none!important}
+  .section.printing{display:block!important}
+  .report{border:0;box-shadow:none;padding:0}
+  .report:not(.print-target){display:none!important}
+  .report.print-target{display:block!important}
+  .radar{max-width:360px}
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Ir para o conteúdo</a>
+
+<div class="accessibility" aria-label="Ferramentas de acessibilidade">
+  <div class="access-inner">
+    <span class="access-label">Acessibilidade</span>
+    <button type="button" id="fontDown" aria-label="Diminuir tamanho da letra">A−</button>
+    <button type="button" id="fontUp" aria-label="Aumentar tamanho da letra">A+</button>
+    <button type="button" id="contrastBtn">Alto contraste</button>
+    <button type="button" id="readableBtn">Fonte legível</button>
+    <button type="button" id="speakPage">🔊 Ouvir a página</button>
+    <button type="button" id="stopSpeak">■ Parar</button>
+    <select id="voiceRate" aria-label="Velocidade da voz">
+      <option value=".8">Lenta</option>
+      <option value="1" selected>Normal</option>
+      <option value="1.25">Rápida</option>
+    </select>
+  </div>
+</div>
+
+<div id="loginView" class="app-shell login-shell">
+  <section class="hero" aria-labelledby="loginTitle">
+    <div class="eyebrow">UC1 · Desenvolvimento Socioemocional</div>
+    <h1 id="loginTitle" tabindex="-1">Sua jornada começa por você.</h1>
+    <p class="lead">Que bom ter você aqui! Não existe resposta certa ou errada. Responda com sinceridade e use os resultados como um ponto de partida para se conhecer melhor.</p>
+
+    <div class="notice">
+      <strong>Transparência e cuidado.</strong>
+      <p>Suas respostas aos testes, à Roda da Vida, ao Projeto de Vida e ao questionário de apoio serão enviadas para a professora e para o psicólogo responsável, quando houver, com a finalidade de acolhimento e acompanhamento pedagógico. Os testes mostram tendências e não são diagnóstico clínico, previsão de comportamento ou definição de quem você é.</p>
+      <p>O aluno verá apenas seus três relatórios pessoais. A equipe poderá usar as respostas de apoio para conversar com você e pensar em estratégias de aprendizagem.</p>
+    </div>
+
+    <form id="loginForm" autocomplete="off">
+      <div class="form-row">
+        <div class="field">
+          <label for="studentName">Nome completo</label>
+          <input id="studentName" name="studentName" type="text" maxlength="120" required autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="studentClass">Turma</label>
+          <input id="studentClass" name="studentClass" type="text" maxlength="80" value="Aprendizagem - Serviços Administrativos 2026.3" required>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="studentCode">Código individual</label>
+        <input id="studentCode" name="studentCode" type="text" maxlength="12" placeholder="Ex.: UC1-017" required autocapitalize="characters">
+        <small>Use o código entregue pela professora, de UC1-001 a UC1-060.</small>
+      </div>
+
+      <label class="checkline">
+        <input id="consent" type="checkbox" required>
+        <span>Li e concordo com o uso das respostas para autoconhecimento e acompanhamento pedagógico. Se eu tiver menos de 18 anos, declaro que tenho autorização do meu responsável para participar.</span>
+      </label>
+
+      <div id="loginStatus" class="status" role="status" aria-live="polite"></div>
+      <button class="btn btn-primary" type="submit">Começar minha jornada →</button>
+    </form>
+  </section>
+</div>
+
+<div id="appView" class="app-shell" hidden>
+  <div class="topbar">
+    <div class="user-chip">
+      <div class="avatar-mini" aria-hidden="true">🌱</div>
+      <div><strong id="helloName">Olá!</strong><br><small id="helloMeta"></small></div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end">
+      <button class="btn btn-secondary mobile-menu" id="mobileMenuBtn" type="button">☰ Menu</button>
+      <button class="btn btn-secondary" id="saveNowBtn" type="button">Salvar neste aparelho</button>
+      <button class="btn btn-ghost" id="logoutBtn" type="button">Sair</button>
+    </div>
+  </div>
+
+  <div class="layout">
+    <nav class="sidebar" id="sidebar" aria-label="Seções da jornada">
+      <button class="nav-btn" data-section="inicio" aria-current="page">🏠 Início</button>
+      <button class="nav-btn" data-section="temperamentos">🎭 Temperamentos</button>
+      <button class="nav-btn" data-section="personalidade">🧭 Personalidade</button>
+      <button class="nav-btn" data-section="roda">🎯 Roda da vida</button>
+      <button class="nav-btn" data-section="projeto">🗺️ Projeto de vida</button>
+      <button class="nav-btn" data-section="apoio">🤝 Apoio</button>
+      <button class="nav-btn" data-section="perfis">🧩 Perfis</button>
+      <button class="nav-btn" data-section="relatorios">📄 Relatórios</button>
+    </nav>
+
+    <main id="main" class="content">
+      <section id="sec-inicio" class="section active" data-title="Início">
+        <div class="section-head">
+          <div class="eyebrow">Minha jornada</div>
+          <h1 tabindex="-1" class="section-title">Bem-vindo(a), <span id="firstName"></span>!</h1>
+          <p class="lead">Você vai passar por cinco etapas. Cada etapa concluída rende uma estrela.</p>
+        </div>
+
+        <div class="card">
+          <div class="progress-wrap">
+            <div class="progress" aria-label="Progresso da jornada"><span id="progressBar"></span></div>
+            <strong id="progressText">0%</strong>
+          </div>
+          <div class="stars" id="stars" aria-label="0 de 5 etapas concluídas">☆ ☆ ☆ ☆ ☆</div>
+          <div class="trail" id="trail"></div>
+        </div>
+
+        <h2 style="margin-top:24px">Os 5 pilares da UC1</h2>
+        <div class="grid grid-3" id="pillarGrid"></div>
+
+        <div class="challenge" style="margin-top:18px">
+          <div class="eyebrow" style="color:#fff">Desafio da semana</div>
+          <h3 id="challengeTitle"></h3>
+          <p id="challengeText"></p>
+        </div>
+
+        <h2 style="margin-top:26px">Quatro jeitos de reagir ao mundo</h2>
+        <p class="muted">Os temperamentos são uma linguagem simples para refletir sobre tendências. Ninguém cabe inteiro em uma única caixa.</p>
+        <div class="grid grid-4" id="temperAvatarHome"></div>
+      </section>
+
+      <section id="sec-temperamentos" class="section" data-title="Temperamentos">
+        <div class="section-head">
+          <div class="eyebrow">Etapa 1 de 5</div>
+          <h1 tabindex="-1" class="section-title">Temperamentos</h1>
+          <p class="lead">Escolha a alternativa que mais se aproxima de você na maior parte do tempo.</p>
+        </div>
+        <form id="temperForm"></form>
+        <div class="result-box" id="temperResult" hidden></div>
+      </section>
+
+      <section id="sec-personalidade" class="section" data-title="Personalidade">
+        <div class="section-head">
+          <div class="eyebrow">Etapa 2 de 5</div>
+          <h1 tabindex="-1" class="section-title">Personalidade</h1>
+          <p class="lead">Este teste é original e apenas inspirado nas quatro dimensões popularizadas pelo MBTI. <strong>Não é o teste oficial MBTI.</strong> Marque de 1 (discordo totalmente) a 5 (concordo totalmente).</p>
+        </div>
+        <form id="personalityForm"></form>
+        <div class="result-box" id="personalityResult" hidden></div>
+      </section>
+
+      <section id="sec-roda" class="section" data-title="Roda da vida">
+        <div class="section-head">
+          <div class="eyebrow">Etapa 3 de 5</div>
+          <h1 tabindex="-1" class="section-title">Roda da vida</h1>
+          <p class="lead">Dê uma nota de 0 a 10 para como você percebe cada área da sua vida hoje.</p>
+        </div>
+        <div class="card">
+          <div class="radar-wrap">
+            <div id="wheelControls"></div>
+            <div>
+              <svg id="radarSvg" class="radar" viewBox="0 0 420 420" role="img" aria-label="Gráfico da Roda da Vida"></svg>
+              <p id="radarDescription" class="muted" aria-live="polite"></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="sec-projeto" class="section" data-title="Projeto de vida">
+        <div class="section-head">
+          <div class="eyebrow">Etapa 4 de 5</div>
+          <h1 tabindex="-1" class="section-title">Mapa da vida e projeto de vida</h1>
+          <p class="lead">Escreva do seu jeito. Não precisa impressionar ninguém. O objetivo é organizar pensamento, sonhos e próximos passos.</p>
+        </div>
+        <form id="projectForm"></form>
+      </section>
+
+      <section id="sec-apoio" class="section" data-title="Apoio">
+        <div class="section-head">
+          <div class="eyebrow">Etapa 5 de 5</div>
+          <h1 tabindex="-1" class="section-title">Como posso ser melhor apoiado(a)?</h1>
+          <p class="lead">A professora e o psicólogo podem ler estas respostas para oferecer ajuda. Este questionário não gera diagnóstico nem rótulo.</p>
+        </div>
+        <div class="notice">
+          Responda de 1 a 5 conforme as orientações de cada frase. Algumas falam de dificuldade; outras falam de recursos que você tem. Leia com atenção.
+        </div>
+        <form id="supportForm" style="margin-top:16px"></form>
+        <div class="card">
+          <button type="button" class="btn btn-primary" id="finishBtn">Concluir jornada e enviar resultados</button>
+          <div id="finishStatus" class="status" role="status" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section id="sec-perfis" class="section" data-title="Perfis">
+        <div class="section-head">
+          <div class="eyebrow">Galeria</div>
+          <h1 tabindex="-1" class="section-title">Perfis e possibilidades</h1>
+          <p class="lead">Use os perfis como linguagem de reflexão, não como limite. Pessoas mudam, aprendem e se comportam de formas diferentes conforme o contexto.</p>
+        </div>
+        <h2>Temperamentos</h2>
+        <div class="grid grid-4" id="temperProfiles"></div>
+        <h2 style="margin-top:26px">16 tipos inspirados no MBTI</h2>
+        <div class="profile-grid" id="mbtiProfiles"></div>
+      </section>
+
+      <section id="sec-relatorios" class="section" data-title="Relatórios">
+        <div class="section-head">
+          <div class="eyebrow">Seus resultados</div>
+          <h1 tabindex="-1" class="section-title">Meus relatórios</h1>
+          <p class="lead">Os relatórios aparecem à medida que você conclui as etapas. Você pode imprimir ou salvar como PDF.</p>
+        </div>
+        <div id="reportsContainer"></div>
+      </section>
+    </main>
+  </div>
+
+  <p class="footer-note">UC1 – Desenvolvimento Socioemocional · Autoconhecimento, projeto de vida e acompanhamento pedagógico.</p>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+"use strict";
+
+const API_URL = "https://script.google.com/macros/s/AKfycbyjnVPugE-VHJ2vnMKk6U8EV15Y2KTf_jkBTsOdrQ9ortRGiZCihg0Y4HOfSh4O7aNGZg/exec";
+const STORAGE_KEY = "uc1_jornada_v1";
+const ACCESS_KEY = "uc1_accessibility_v1";
+
+const pillars = [
+  {name:"Comunicação",icon:"💬",text:"Expressar ideias com clareza e escutar o outro."},
+  {name:"Colaboração",icon:"🤝",text:"Construir soluções junto com outras pessoas."},
+  {name:"Criatividade",icon:"✨",text:"Experimentar caminhos novos para problemas reais."},
+  {name:"Pensamento crítico",icon:"🔎",text:"Perguntar, comparar e argumentar com evidências."},
+  {name:"Atitude sustentável",icon:"🌱",text:"Usar recursos com consciência e responsabilidade."}
+];
+
+const challenges = [
+  ["Comunicação","Explique uma tarefa do curso em até 1 minuto, usando começo, meio e fim."],
+  ["Colaboração","Ajude alguém em uma tarefa e pergunte depois o que facilitou o trabalho em dupla."],
+  ["Criatividade","Escolha um problema simples da rotina e imagine três soluções diferentes."],
+  ["Pensamento crítico","Antes de compartilhar uma informação, procure a fonte e compare com outra evidência."],
+  ["Atitude sustentável","Observe um desperdício de material, energia ou tempo e proponha uma mudança pequena."]
+];
+
+const temperamentQuestions = [
+  {
+    q:"Em um grupo novo, o que costuma acontecer primeiro?",
+    a:[
+      ["sanguineo","Puxo conversa e tento deixar o ambiente mais leve."],
+      ["colerico","Procuro entender o objetivo e começo a organizar o que precisa ser feito."],
+      ["melancolico","Observo bastante antes de me posicionar."],
+      ["fleumatico","Vou me aproximando aos poucos e tento me adaptar ao ritmo do grupo."]
+    ]
+  },
+  {
+    q:"Quando surge um problema inesperado em uma tarefa, você tende a:",
+    a:[
+      ["sanguineo","Pensar em alternativas rapidamente e conversar com alguém."],
+      ["colerico","Tomar uma decisão e agir para resolver logo."],
+      ["melancolico","Analisar detalhes e tentar descobrir a causa."],
+      ["fleumatico","Manter a calma, evitar conflito e procurar uma saída segura."]
+    ]
+  },
+  {
+    q:"Em uma atividade com prazo curto, o que mais combina com você?",
+    a:[
+      ["sanguineo","Trabalho melhor quando posso interagir e trocar ideias."],
+      ["colerico","Gosto de definir prioridades e partir para a execução."],
+      ["melancolico","Prefiro organizar tudo para reduzir erros."],
+      ["fleumatico","Mantenho um ritmo constante e tento não me desesperar."]
+    ]
+  },
+  {
+    q:"Quando alguém discorda de você:",
+    a:[
+      ["sanguineo","Converso bastante e tento explicar meu ponto de vista."],
+      ["colerico","Defendo minha posição com firmeza."],
+      ["melancolico","Penso nos argumentos e nas consequências antes de responder."],
+      ["fleumatico","Procuro um meio-termo e tento preservar a relação."]
+    ]
+  },
+  {
+    q:"Qual elogio mais costuma combinar com você?",
+    a:[
+      ["sanguineo","Você anima as pessoas."],
+      ["colerico","Você faz as coisas acontecerem."],
+      ["melancolico","Você percebe detalhes que outros não percebem."],
+      ["fleumatico","Você transmite calma e equilíbrio."]
+    ]
+  },
+  {
+    q:"Qual dificuldade aparece com mais frequência?",
+    a:[
+      ["sanguineo","Começar animado(a) e depois perder um pouco o foco."],
+      ["colerico","Ficar impaciente quando as coisas demoram."],
+      ["melancolico","Pensar demais e ser muito exigente comigo."],
+      ["fleumatico","Adiar decisões para evitar tensão ou conflito."]
+    ]
+  },
+  {
+    q:"Em trabalhos em equipe, você costuma:",
+    a:[
+      ["sanguineo","Estimular a participação e a conversa."],
+      ["colerico","Assumir responsabilidades e cobrar andamento."],
+      ["melancolico","Revisar, organizar e cuidar da qualidade."],
+      ["fleumatico","Ouvir os lados e ajudar a manter o grupo unido."]
+    ]
+  },
+  {
+    q:"Diante de uma mudança de planos:",
+    a:[
+      ["sanguineo","Posso até gostar da novidade e improvisar."],
+      ["colerico","Quero saber rapidamente qual é o novo objetivo."],
+      ["melancolico","Preciso entender bem a mudança antes de me sentir confortável."],
+      ["fleumatico","Aceito, mas prefiro que a transição seja tranquila."]
+    ]
+  }
+];
+
+const personalityItems = [
+  ["E/I","Eu ganho energia quando posso conversar e trocar ideias com outras pessoas."],
+  ["E/I","Em atividades coletivas, costumo pensar melhor falando."],
+  ["E/I","Sinto facilidade para iniciar contato com pessoas que ainda não conheço bem."],
+  ["E/I","Depois de muita interação, preciso de um tempo sozinho(a) para recuperar energia."],
+  ["E/I","Prefiro organizar meus pensamentos em silêncio antes de falar."],
+  ["E/I","Costumo me sentir mais confortável em grupos pequenos ou conversas individuais."],
+
+  ["S/N","Aprendo melhor quando recebo exemplos concretos e instruções claras."],
+  ["S/N","Percebo com facilidade detalhes práticos de uma tarefa."],
+  ["S/N","Gosto de trabalhar com informações que posso observar e verificar."],
+  ["S/N","Tenho facilidade para imaginar possibilidades que ainda não existem."],
+  ["S/N","Costumo procurar conexões e significados além do que está evidente."],
+  ["S/N","Ideias novas me interessam mesmo antes de eu saber exatamente como aplicá-las."],
+
+  ["T/F","Ao decidir, tento separar o problema das emoções do momento."],
+  ["T/F","Gosto de comparar argumentos e critérios antes de chegar a uma conclusão."],
+  ["T/F","Quando preciso corrigir algo, prefiro ser objetivo(a) e direto(a)."],
+  ["T/F","Antes de decidir, penso bastante em como as pessoas serão afetadas."],
+  ["T/F","Para mim, preservar respeito e harmonia pesa muito em uma decisão."],
+  ["T/F","Tenho facilidade para perceber quando alguém precisa de acolhimento."],
+
+  ["J/P","Gosto de começar uma tarefa sabendo o que precisa ser feito e em qual ordem."],
+  ["J/P","Prazos e listas me ajudam a trabalhar melhor."],
+  ["J/P","Sinto alívio quando uma decisão importante fica resolvida."],
+  ["J/P","Prefiro manter opções abertas por mais tempo antes de decidir."],
+  ["J/P","Adapto meu plano com facilidade quando aparece uma oportunidade melhor."],
+  ["J/P","Trabalho bem quando posso ajustar o caminho durante a execução."]
+];
+
+const wheelAreas = [
+  ["saude","Saúde","Sono, alimentação, movimento, disposição e cuidado consigo."],
+  ["familia","Família","Qualidade dos vínculos, diálogo e apoio familiar."],
+  ["amigos","Amigos","Convivência, confiança e sensação de pertencimento."],
+  ["estudos","Estudos","Organização, aprendizagem, participação e progresso."],
+  ["carreira","Carreira","Clareza sobre possibilidades profissionais e desenvolvimento."],
+  ["financas","Finanças","Organização do dinheiro e percepção de segurança financeira."],
+  ["lazer","Lazer","Descanso, diversão e atividades que renovam sua energia."],
+  ["proposito","Propósito","Sentido, valores e direção que você deseja dar à vida."]
+];
+
+const projectQuestions = [
+  ["deOndeVenho","De onde venho?","Conte um pouco sobre experiências, pessoas ou lugares que ajudaram a formar quem você é."],
+  ["quemSouHoje","Quem sou hoje?","Como você se descreveria neste momento? O que valoriza e o que está aprendendo sobre si?"],
+  ["sonhos5Anos","Como imagino minha vida daqui a 5 anos?","Fale de estudo, trabalho, relações, conquistas e experiências que gostaria de viver."],
+  ["metas12Meses","Quais são minhas metas para os próximos 12 meses?","Escolha metas possíveis de acompanhar e explique por que elas importam."],
+  ["obstaculos","O que pode dificultar meu caminho e como posso enfrentar isso?","Pense em obstáculos reais e em apoios, hábitos ou escolhas que podem ajudar."],
+  ["plano30Dias","Qual é meu plano de ação para os próximos 30 dias?","Defina ações pequenas, concretas e possíveis de começar agora."]
+];
+
+const supportItems = [
+  ["dificuldade","Consigo conciliar trabalho, estudo e demais responsabilidades sem me sentir sobrecarregado(a).",true],
+  ["dificuldade","Meu transporte e deslocamento permitem que eu chegue às atividades com regularidade e tranquilidade.",true],
+  ["protetivo","Tenho pessoas com quem posso contar quando preciso de apoio.",false],
+  ["protetivo","Tenho motivação para continuar aprendendo e avançando no curso.",false],
+  ["dificuldade","Tenho segurança para compreender textos e produzir respostas por escrito.",true],
+  ["dificuldade","Sinto segurança para lidar com cálculos e situações de matemática do dia a dia.",true],
+  ["protetivo","Sinto que consigo conviver e trabalhar com meus colegas.",false],
+  ["protetivo","Sinto segurança para pedir ajuda quando não entendo algo.",false]
+];
+
+/*
+  Para os quatro itens de "dificuldade", o backend espera notas ALTAS como atenção.
+  Por isso, a frase é apresentada na forma "Tenho dificuldade..." no envio interpretativo.
+  Para evitar ambiguidade no aluno, o texto visível abaixo é convertido dinamicamente.
+*/
+const supportVisible = [
+  "Tenho dificuldade para conciliar trabalho, estudo e outras responsabilidades.",
+  "Tenho dificuldade com transporte ou deslocamento para participar das atividades.",
+  "Tenho uma rede de apoio em que posso confiar.",
+  "Tenho motivação para continuar aprendendo e avançando no curso.",
+  "Tenho dificuldade com leitura e escrita.",
+  "Tenho dificuldade com matemática.",
+  "Tenho uma boa relação com meus colegas.",
+  "Sinto segurança para pedir ajuda quando preciso."
+];
+
+const temperamentMeta = {
+  sanguineo:{
+    label:"Sanguíneo",symbol:"🎉",tag:"Comunicador",
+    strong:["Comunicação espontânea","Entusiasmo","Facilidade para criar vínculos"],
+    develop:["Sustentar o foco até o fim","Escutar sem interromper","Planejar antes de agir"],
+    work:["Atendimento","Recepção","Apoio comercial","Eventos e comunicação interna"],
+    famous:["Robin Williams","Jennifer Lawrence"]
+  },
+  colerico:{
+    label:"Colérico",symbol:"🚩",tag:"Líder",
+    strong:["Iniciativa","Objetividade","Capacidade de decisão"],
+    develop:["Paciência com ritmos diferentes","Escuta","Flexibilidade"],
+    work:["Organização de tarefas","Acompanhamento de metas","Operações","Coordenação de rotinas"],
+    famous:["Steve Jobs","Gordon Ramsay"]
+  },
+  melancolico:{
+    label:"Melancólico",symbol:"📖",tag:"Pensador",
+    strong:["Atenção aos detalhes","Organização","Análise"],
+    develop:["Evitar perfeccionismo excessivo","Decidir com informação suficiente","Aceitar ajustes"],
+    work:["Controle de documentos","Conferência","Planilhas","Qualidade e cadastro"],
+    famous:["Frida Kahlo","Vincent van Gogh"]
+  },
+  fleumatico:{
+    label:"Fleumático",symbol:"🍵",tag:"Pacificador",
+    strong:["Calma","Escuta","Constância"],
+    develop:["Posicionar-se com mais clareza","Agir sem esperar o momento perfeito","Lidar com conflitos necessários"],
+    work:["Atendimento","Apoio de equipe","Rotinas administrativas","Mediação de demandas"],
+    famous:["Keanu Reeves","Morgan Freeman"]
+  }
+};
+
+const typeNames = {
+  ISTJ:"o Responsável",ISFJ:"o Protetor",INFJ:"o Conselheiro",INTJ:"o Estrategista",
+  ISTP:"o Artesão",ISFP:"o Artista",INFP:"o Idealista",INTP:"o Pensador",
+  ESTP:"o Empreendedor",ESFP:"o Animador",ENFP:"o Inspirador",ENTP:"o Inventor",
+  ESTJ:"o Organizador",ESFJ:"o Anfitrião",ENFJ:"o Mentor",ENTJ:"o Comandante"
+};
+
+const typeSymbols = {
+  ISTJ:"📋",ISFJ:"🛡️",INFJ:"🕯️",INTJ:"♟️",ISTP:"🔧",ISFP:"🎨",INFP:"🪶",INTP:"💡",
+  ESTP:"🚀",ESFP:"🎵",ENFP:"✨",ENTP:"⚙️",ESTJ:"✅",ESFJ:"☕",ENFJ:"🤲",ENTJ:"🚩"
+};
+
+const typeDescriptions = {
+  ISTJ:"Tende a valorizar organização, responsabilidade e procedimentos claros.",
+  ISFJ:"Tende a combinar atenção às pessoas com cuidado prático e senso de dever.",
+  INFJ:"Costuma procurar significado, coerência e impacto humano nas escolhas.",
+  INTJ:"Tende a pensar em sistemas, estratégia e melhoria de longo prazo.",
+  ISTP:"Costuma aprender testando, observando como as coisas funcionam e resolvendo problemas concretos.",
+  ISFP:"Tende a valorizar autenticidade, sensibilidade e liberdade para agir com seu próprio estilo.",
+  INFP:"Costuma orientar escolhas por valores, imaginação e busca de sentido.",
+  INTP:"Tende a gostar de investigar ideias, lógica e explicações consistentes.",
+  ESTP:"Costuma reagir rapidamente a situações concretas e aprender pela experiência.",
+  ESFP:"Tende a trazer energia para o ambiente e responder bem a situações práticas e sociais.",
+  ENFP:"Costuma enxergar possibilidades, conectar pessoas e se entusiasmar com novos caminhos.",
+  ENTP:"Tende a questionar, experimentar ideias e encontrar alternativas pouco óbvias.",
+  ESTJ:"Costuma organizar recursos, prazos e responsabilidades com objetividade.",
+  ESFJ:"Tende a cuidar da convivência, perceber necessidades e manter rotinas funcionando.",
+  ENFJ:"Costuma mobilizar pessoas, comunicar propósito e apoiar desenvolvimento.",
+  ENTJ:"Tende a estruturar objetivos, tomar decisões e buscar eficiência."
+};
+
+const typeStrengths = {
+  ISTJ:["confiabilidade","organização","atenção a normas"],
+  ISFJ:["cuidado","cooperação","constância"],
+  INFJ:["escuta","visão de sentido","planejamento humano"],
+  INTJ:["estratégia","autonomia","análise de sistemas"],
+  ISTP:["solução prática","adaptação","observação"],
+  ISFP:["sensibilidade","flexibilidade","atenção ao presente"],
+  INFP:["criatividade","empatia","coerência com valores"],
+  INTP:["curiosidade","lógica","investigação"],
+  ESTP:["ação","negociação","resposta rápida"],
+  ESFP:["comunicação","energia","atenção às pessoas"],
+  ENFP:["criatividade","conexão","entusiasmo"],
+  ENTP:["inovação","argumentação","experimentação"],
+  ESTJ:["execução","planejamento","responsabilidade"],
+  ESFJ:["acolhimento","organização social","cooperação"],
+  ENFJ:["comunicação","liderança de pessoas","mediação"],
+  ENTJ:["estratégia","decisão","organização de recursos"]
+};
+
+const typeDevelop = {
+  ISTJ:["flexibilidade diante de mudanças","ouvir caminhos diferentes"],
+  ISFJ:["colocar limites","expressar discordâncias"],
+  INFJ:["separar ideal de viável","evitar sobrecarga"],
+  INTJ:["explicar ideias com paciência","considerar impactos relacionais"],
+  ISTP:["planejar prazos","comunicar o raciocínio"],
+  ISFP:["organizar prioridades","lidar com cobranças"],
+  INFP:["transformar ideias em etapas concretas","definir prazos"],
+  INTP:["concluir antes de abrir novos caminhos","traduzir ideias complexas"],
+  ESTP:["avaliar consequências","manter rotinas"],
+  ESFP:["planejar antes da urgência","proteger o foco"],
+  ENFP:["priorizar","acompanhar detalhes até o fim"],
+  ENTP:["concluir projetos","escutar sem transformar tudo em debate"],
+  ESTJ:["dar espaço a outras formas de trabalhar","praticar escuta"],
+  ESFJ:["lidar com desaprovação","separar ajuda de assumir tudo"],
+  ENFJ:["preservar limites","aceitar que nem todos precisam concordar"],
+  ENTJ:["equilibrar resultado e processo humano","ouvir antes de decidir"]
+};
+
+const typeWork = {
+  ISTJ:["arquivo e documentação","controle de processos","cadastros"],
+  ISFJ:["atendimento","apoio de RH","rotinas administrativas"],
+  INFJ:["projetos sociais","comunicação interna","desenvolvimento de pessoas"],
+  INTJ:["planejamento","melhoria de processos","análise"],
+  ISTP:["suporte operacional","controle técnico","solução de problemas"],
+  ISFP:["atendimento personalizado","produção visual","organização de experiências"],
+  INFP:["comunicação","conteúdo","projetos com propósito"],
+  INTP:["análise de dados","pesquisa","melhoria de sistemas"],
+  ESTP:["vendas","negociação","operações dinâmicas"],
+  ESFP:["atendimento","eventos","relacionamento"],
+  ENFP:["marketing","projetos","comunicação e inovação"],
+  ENTP:["ideação","negociação","solução criativa de problemas"],
+  ESTJ:["supervisão de rotinas","logística","controle administrativo"],
+  ESFJ:["atendimento","secretaria","suporte de equipe"],
+  ENFJ:["treinamento","comunicação","coordenação de pessoas"],
+  ENTJ:["gestão de projetos","planejamento","coordenação de operações"]
+};
+
+const popularExamples = {
+  ISTJ:["Natalie Portman","Denzel Washington"],
+  ISFJ:["Beyoncé","Anne Hathaway"],
+  INFJ:["Lady Gaga","Cate Blanchett"],
+  INTJ:["Christopher Nolan","Jodie Foster"],
+  ISTP:["Scarlett Johansson","Tom Cruise"],
+  ISFP:["Rihanna","Michael Jackson"],
+  INFP:["Audrey Hepburn","J. R. R. Tolkien"],
+  INTP:["Albert Einstein","Bill Gates"],
+  ESTP:["Madonna","Eddie Murphy"],
+  ESFP:["Marilyn Monroe","Jamie Foxx"],
+  ENFP:["Robin Williams","Walt Disney"],
+  ENTP:["Thomas Edison","Sacha Baron Cohen"],
+  ESTJ:["Frank Sinatra","Lucy Liu"],
+  ESFJ:["Jennifer Garner","Hugh Jackman"],
+  ENFJ:["Oprah Winfrey","Emma Stone"],
+  ENTJ:["Steve Jobs","Gordon Ramsay"]
+};
+
+const dimensionText = {
+  E:"Você tende a organizar energia por meio de interação e troca.",
+  I:"Você tende a organizar energia por meio de reflexão e espaço interno.",
+  S:"Você tende a confiar mais em informações concretas e observáveis.",
+  N:"Você tende a perceber possibilidades, padrões e significados.",
+  T:"Você tende a decidir comparando lógica, critérios e consistência.",
+  F:"Você tende a considerar fortemente pessoas, valores e impactos humanos.",
+  J:"Você tende a preferir estrutura, definição e fechamento.",
+  P:"Você tende a preferir flexibilidade, exploração e adaptação."
+};
+
+let state = defaultState();
+let currentSection = "inicio";
+
+function defaultState(){
+  return {
+    profile:null,
+    temperament:Array(8).fill(null),
+    personality:Array(24).fill(null),
+    wheel:{saude:5,familia:5,amigos:5,estudos:5,carreira:5,financas:5,lazer:5,proposito:5},
+    project:{deOndeVenho:"",quemSouHoje:"",sonhos5Anos:"",metas12Meses:"",obstaculos:"",plano30Dias:""},
+    support:Array(8).fill(null),
+    completed:{temperament:false,personality:false,wheel:false,project:false,support:false},
+    submitted:false,
+    updatedAt:null
+  };
+}
+
+function loadState(){
+  try{
+    const raw=localStorage.getItem(STORAGE_KEY);
+    if(!raw) return;
+    const saved=JSON.parse(raw);
+    state=Object.assign(defaultState(),saved);
+    state.completed=Object.assign(defaultState().completed,saved.completed||{});
+    state.wheel=Object.assign(defaultState().wheel,saved.wheel||{});
+    state.project=Object.assign(defaultState().project,saved.project||{});
+  }catch(e){console.warn("Não foi possível carregar os dados locais.",e)}
+}
+
+function saveState(show=false){
+  state.updatedAt=new Date().toISOString();
+  try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state));}
+  catch(e){console.warn("Não foi possível salvar no aparelho.",e)}
+  updateProgress();
+  renderReports();
+  if(show) toast("Progresso salvo neste aparelho.");
+}
+
+function toast(msg){
+  const el=document.getElementById("toast");
+  el.textContent=msg;el.classList.add("show");
+  clearTimeout(toast._t);toast._t=setTimeout(()=>el.classList.remove("show"),2800);
+}
+
+function safeText(v){return String(v??"").trim()}
+
+function validCode(code){
+  const m=safeText(code).toUpperCase().match(/^UC1-(\d{3})$/);
+  if(!m) return false;
+  const n=Number(m[1]);
+  return n>=1&&n<=60;
+}
+
+function sessionId(){
+  let s=sessionStorage.getItem("uc1_session");
+  if(!s){s=(crypto.randomUUID?crypto.randomUUID():String(Date.now())+"-"+Math.random().toString(36).slice(2));sessionStorage.setItem("uc1_session",s)}
+  return s;
+}
+
+function clientInfo(){
+  return [navigator.userAgent,navigator.language,screen.width+"x"+screen.height].join(" | ").slice(0,280);
+}
+
+function backendPayload(action,extra={}){
+  return Object.assign({
+    action,
+    codigo:state.profile?.code||"",
+    nome:state.profile?.name||"",
+    turma:state.profile?.className||"",
+    sessionId:sessionId(),
+    clientInfo:clientInfo(),
+    consentimento:true
+  },extra);
+}
+
+/*
+  O Apps Script usa ContentService e pode redirecionar a resposta.
+  Para preservar a simplicidade no GitHub Pages, o envio usa no-cors.
+  O navegador confirma que o pedido foi despachado, mas não expõe a resposta.
+*/
+async function sendToBackend(payload){
+  try{
+    await fetch(API_URL,{
+      method:"POST",
+      mode:"no-cors",
+      cache:"no-store",
+      headers:{"Content-Type":"text/plain;charset=UTF-8"},
+      body:JSON.stringify(payload),
+      keepalive:true
+    });
+    return true;
+  }catch(e){
+    console.warn("Falha de envio",e);
+    return false;
+  }
+}
+
+function readText(text){
+  if(!("speechSynthesis" in window)){toast("Este navegador não oferece leitura por voz.");return}
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang="pt-BR";
+  u.rate=Number(document.getElementById("voiceRate").value||1);
+  speechSynthesis.speak(u);
+}
+
+function setupAccessibility(){
+  let a={scale:1,contrast:false,readable:false};
+  try{a=Object.assign(a,JSON.parse(localStorage.getItem(ACCESS_KEY)||"{}"))}catch(e){}
+  applyAccess(a);
+
+  document.getElementById("fontDown").onclick=()=>{a.scale=Math.max(.9,Math.round((a.scale-.1)*10)/10);applyAccess(a);saveAccess(a)};
+  document.getElementById("fontUp").onclick=()=>{a.scale=Math.min(1.8,Math.round((a.scale+.1)*10)/10);applyAccess(a);saveAccess(a)};
+  document.getElementById("contrastBtn").onclick=()=>{a.contrast=!a.contrast;applyAccess(a);saveAccess(a)};
+  document.getElementById("readableBtn").onclick=()=>{a.readable=!a.readable;applyAccess(a);saveAccess(a)};
+  document.getElementById("speakPage").onclick=()=>readText(document.querySelector(".section.active")?.innerText||document.body.innerText);
+  document.getElementById("stopSpeak").onclick=()=>speechSynthesis?.cancel();
+}
+function applyAccess(a){
+  document.documentElement.style.setProperty("--font-scale",a.scale);
+  document.body.classList.toggle("high-contrast",!!a.contrast);
+  document.body.classList.toggle("readable",!!a.readable);
+}
+function saveAccess(a){try{localStorage.setItem(ACCESS_KEY,JSON.stringify(a))}catch(e){}}
+
+function avatarSvg(symbol,idx=0,assistive=""){
+  const skins=["#f3c6a5","#c88963","#8f5d3f","#e1aa80"];
+  const hairs=["#3c2b24","#171311","#7b4b2a","#4a3128"];
+  const skin=skins[idx%skins.length],hair=hairs[(idx+1)%hairs.length];
+  const wheel=assistive==="wheelchair"?'<circle cx="97" cy="118" r="20" fill="none" stroke="#4e7bbd" stroke-width="6"/><path d="M80 97h24l8 18" fill="none" stroke="#4e7bbd" stroke-width="6" stroke-linecap="round"/>':"";
+  const cane=assistive==="cane"?'<path d="M112 76v48q0 10-10 10" fill="none" stroke="#6b625d" stroke-width="5" stroke-linecap="round"/>':"";
+  return `<svg viewBox="0 0 140 150" role="img" aria-label="Personagem representativo">
+    <circle cx="70" cy="40" r="27" fill="${skin}"/>
+    <path d="M43 36q9-30 33-24 20 3 23 25-11-7-22-7-18 0-34 6" fill="${hair}"/>
+    <circle cx="60" cy="42" r="2.5"/><circle cx="80" cy="42" r="2.5"/>
+    <path d="M60 53q10 8 20 0" fill="none" stroke="#8a4b3d" stroke-width="2.5" stroke-linecap="round"/>
+    <rect x="43" y="68" width="54" height="63" rx="24" fill="#d98b69"/>
+    <path d="M51 86q-20 10-25 26M89 86q18 8 24 21" fill="none" stroke="${skin}" stroke-width="9" stroke-linecap="round"/>
+    <text x="113" y="91" text-anchor="middle" font-size="24">${symbol}</text>
+    ${wheel}${cane}
+  </svg>`;
+}
+
+function renderStatic(){
+  document.getElementById("pillarGrid").innerHTML=pillars.map(p=>`<article class="card pillar"><div class="icon">${p.icon}</div><h3>${p.name}</h3><p>${p.text}</p></article>`).join("");
+  const ix=Math.floor(Date.now()/86400000)%challenges.length;
+  document.getElementById("challengeTitle").textContent=challenges[ix][0];
+  document.getElementById("challengeText").textContent=challenges[ix][1];
+
+  document.getElementById("temperAvatarHome").innerHTML=Object.entries(temperamentMeta).map(([k,m],i)=>`
+    <article class="card avatar-card">
+      <div class="avatar-holder">${avatarSvg(m.symbol,i,i===3?"wheelchair":"")}</div>
+      <strong>${m.label}</strong><br><small>${m.tag}</small>
+    </article>`).join("");
+
+  document.getElementById("temperProfiles").innerHTML=Object.entries(temperamentMeta).map(([k,m],i)=>`
+    <article class="card avatar-card">
+      <div class="avatar-holder">${avatarSvg(m.symbol,i,i===2?"cane":"")}</div>
+      <h3>${m.label}</h3><p>${m.tag}</p>
+    </article>`).join("");
+
+  document.getElementById("mbtiProfiles").innerHTML=Object.keys(typeNames).map((type,i)=>{
+    const fam=(type.includes("N")&&type.includes("T"))?"NT":(type.includes("N")&&type.includes("F"))?"NF":(type.includes("S")&&type.includes("J"))?"SJ":"SP";
+    const assist=i===5?"wheelchair":i===10?"cane":"";
+    return `<article class="profile-card family-${fam}">
+      <div class="avatar-holder">${avatarSvg(typeSymbols[type],i,assist)}</div>
+      <strong>${type}</strong> · ${typeNames[type]}<p>${typeDescriptions[type]}</p>
+    </article>`;
+  }).join("");
+
+  renderTemperQuestions();
+  renderPersonalityQuestions();
+  renderWheel();
+  renderProject();
+  renderSupport();
+}
+
+function renderTemperQuestions(){
+  const form=document.getElementById("temperForm");
+  form.innerHTML=temperamentQuestions.map((item,i)=>`
+    <fieldset class="question">
+      <legend>${i+1}. ${item.q} <button type="button" class="read-btn" aria-label="Ouvir pergunta ${i+1}" data-read-temper="${i}">🔊</button></legend>
+      <div class="options">
+        ${item.a.map(([value,label],j)=>`
+          <label class="option">
+            <input type="radio" name="temper-${i}" value="${value}" ${state.temperament[i]===value?"checked":""}
+              aria-label="Alternativa ${j+1}: ${label}">
+            <span>${label}</span>
+          </label>`).join("")}
+      </div>
+    </fieldset>`).join("");
+
+  form.querySelectorAll("input").forEach(inp=>inp.addEventListener("change",e=>{
+    const i=Number(e.target.name.split("-")[1]);
+    state.temperament[i]=e.target.value;
+    if(state.temperament.every(Boolean)){
+      state.completed.temperament=true;
+      showTemperResult();
+    }
+    saveState();
+  }));
+  form.querySelectorAll("[data-read-temper]").forEach(btn=>btn.onclick=()=>{
+    const i=Number(btn.dataset.readTemper),item=temperamentQuestions[i];
+    readText(item.q+". "+item.a.map((a,j)=>`Opção ${j+1}: ${a[1]}`).join(". "));
+  });
+  if(state.temperament.every(Boolean)){state.completed.temperament=true;showTemperResult()}
+}
+
+function calcTemperament(){
+  const counts={sanguineo:0,colerico:0,melancolico:0,fleumatico:0};
+  state.temperament.forEach(v=>{if(v)counts[v]++});
+  const ranked=Object.entries(counts).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0]));
+  const pct=Object.fromEntries(Object.entries(counts).map(([k,v])=>[k,Math.round(v/8*1000)/10]));
+  return {counts,pct,pred:ranked[0][0],secondary:ranked[1][0]};
+}
+
+function showTemperResult(){
+  const r=calcTemperament(),box=document.getElementById("temperResult"),m=temperamentMeta[r.pred],s=temperamentMeta[r.secondary];
+  box.hidden=false;
+  box.innerHTML=`<h3>Seu resultado atual</h3>
+    <p><strong>${m.label}</strong> como tendência predominante e <strong>${s.label}</strong> como tendência secundária.</p>
+    ${Object.keys(r.pct).map(k=>`<div style="margin:10px 0"><div style="display:flex;justify-content:space-between"><span>${temperamentMeta[k].label}</span><strong>${r.pct[k]}%</strong></div><div class="bar"><span style="width:${r.pct[k]}%"></span></div></div>`).join("")}
+    <p class="muted">Este resultado é uma linguagem de autoconhecimento, não uma classificação fixa.</p>`;
+}
+
+function renderPersonalityQuestions(){
+  const form=document.getElementById("personalityForm");
+  form.innerHTML=personalityItems.map((item,i)=>`
+    <fieldset class="question">
+      <legend>${i+1}. ${item[1]} <button type="button" class="read-btn" aria-label="Ouvir afirmação ${i+1}" data-read-person="${i}">🔊</button></legend>
+      <div class="scale" aria-label="Escala de 1 a 5">
+        ${[1,2,3,4,5].map(n=>`<label><input type="radio" name="person-${i}" value="${n}" ${Number(state.personality[i])===n?"checked":""} aria-label="nota ${n} de 5"><span>${n}</span></label>`).join("")}
+      </div>
+      <small>1 = discordo totalmente · 5 = concordo totalmente</small>
+    </fieldset>`).join("");
+
+  form.querySelectorAll("input").forEach(inp=>inp.addEventListener("change",e=>{
+    const i=Number(e.target.name.split("-")[1]);
+    state.personality[i]=Number(e.target.value);
+    if(state.personality.every(v=>Number(v)>=1)){
+      state.completed.personality=true;showPersonalityResult();
+    }
+    saveState();
+  }));
+  form.querySelectorAll("[data-read-person]").forEach(btn=>btn.onclick=()=>readText(personalityItems[Number(btn.dataset.readPerson)][1]+". Responda de 1, discordo totalmente, a 5, concordo totalmente."));
+  if(state.personality.every(v=>Number(v)>=1)){state.completed.personality=true;showPersonalityResult()}
+}
+
+function scoreDim(slice,first,second){
+  let sum=slice.slice(0,3).reduce((a,b)=>a+Number(b),0);
+  sum+=slice.slice(3).reduce((a,b)=>a+(6-Number(b)),0);
+  const firstPct=Math.round(((sum-6)/24*100)*10)/10;
+  const secondPct=Math.round((100-firstPct)*10)/10;
+  const pole=firstPct>=50?first:second;
+  const dominant=pole===first?firstPct:secondPct;
+  const intensity=dominant<60?"tendência leve":dominant<75?"tendência moderada":"tendência forte";
+  return {pole,dominant,firstPct,secondPct,intensity};
+}
+
+function calcPersonality(){
+  const a=state.personality.map(Number);
+  const EI=scoreDim(a.slice(0,6),"E","I");
+  const SN=scoreDim(a.slice(6,12),"S","N");
+  const TF=scoreDim(a.slice(12,18),"T","F");
+  const JP=scoreDim(a.slice(18,24),"J","P");
+  return {type:EI.pole+SN.pole+TF.pole+JP.pole,dims:{EI,SN,TF,JP}};
+}
+
+function showPersonalityResult(){
+  const r=calcPersonality(),box=document.getElementById("personalityResult");
+  box.hidden=false;
+  box.innerHTML=`<h3>${r.type} · ${typeNames[r.type]}</h3><p>${typeDescriptions[r.type]}</p>
+    <p class="muted">Resultado de um questionário original inspirado nas dimensões do MBTI. Não é o instrumento oficial.</p>`;
+}
+
+function renderWheel(){
+  const c=document.getElementById("wheelControls");
+  c.innerHTML=wheelAreas.map(([key,label])=>`
+    <div class="slider-row">
+      <label for="wheel-${key}">${label}</label>
+      <input id="wheel-${key}" type="range" min="0" max="10" step="1" value="${Number(state.wheel[key]??5)}" aria-label="${label}: nota de 0 a 10">
+      <span class="score-bubble" id="score-${key}">${Number(state.wheel[key]??5)}</span>
+    </div>`).join("");
+  wheelAreas.forEach(([key])=>{
+    const el=document.getElementById("wheel-"+key);
+    el.addEventListener("input",()=>{
+      state.wheel[key]=Number(el.value);
+      document.getElementById("score-"+key).textContent=el.value;
+      state.completed.wheel=true;
+      drawRadar();saveState();
+    });
+  });
+  drawRadar();
+}
+
+function drawRadar(){
+  const svg=document.getElementById("radarSvg"),cx=210,cy=210,R=150,N=wheelAreas.length;
+  const point=(i,r)=>{
+    const a=-Math.PI/2+i*2*Math.PI/N;
+    return [cx+Math.cos(a)*r,cy+Math.sin(a)*r];
+  };
+  let h="";
+  for(let level=2;level<=10;level+=2){
+    const pts=wheelAreas.map((_,i)=>point(i,R*level/10).join(",")).join(" ");
+    h+=`<polygon points="${pts}" fill="none" stroke="currentColor" opacity=".18"/>`;
+  }
+  wheelAreas.forEach(([,label],i)=>{
+    const [x,y]=point(i,R),[lx,ly]=point(i,R+36);
+    h+=`<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="currentColor" opacity=".18"/>`;
+    h+=`<text x="${lx}" y="${ly}" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="currentColor">${label}</text>`;
+  });
+  const dataPts=wheelAreas.map(([k],i)=>point(i,R*Number(state.wheel[k]||0)/10).join(",")).join(" ");
+  h+=`<polygon points="${dataPts}" fill="rgba(185,74,36,.22)" stroke="#b94a24" stroke-width="4"/>`;
+  wheelAreas.forEach(([k],i)=>{const [x,y]=point(i,R*Number(state.wheel[k]||0)/10);h+=`<circle cx="${x}" cy="${y}" r="5" fill="#b94a24"/>`});
+  svg.innerHTML=h;
+  const desc=wheelAreas.map(([k,l])=>`${l}: ${state.wheel[k]}`).join("; ");
+  svg.setAttribute("aria-label","Roda da Vida. "+desc);
+  document.getElementById("radarDescription").textContent="Descrição do gráfico: "+desc+".";
+}
+
+function renderProject(){
+  const form=document.getElementById("projectForm");
+  form.innerHTML=projectQuestions.map(([key,q,help],i)=>`
+    <div class="card" style="margin-bottom:14px">
+      <div style="display:flex;align-items:start;justify-content:space-between;gap:8px">
+        <label for="proj-${key}">${i+1}. ${q}</label>
+        <button type="button" class="read-btn" data-read-project="${key}" aria-label="Ouvir pergunta ${i+1}">🔊</button>
+      </div>
+      <p class="muted">${help}</p>
+      <textarea id="proj-${key}" maxlength="4000">${escapeHtml(state.project[key]||"")}</textarea>
+    </div>`).join("");
+  projectQuestions.forEach(([key,q,help])=>{
+    const el=document.getElementById("proj-"+key);
+    el.addEventListener("input",()=>{
+      state.project[key]=el.value;
+      state.completed.project=projectQuestions.every(([k])=>safeText(state.project[k]).length>=10);
+      saveState();
+    });
+    form.querySelector(`[data-read-project="${key}"]`).onclick=()=>readText(q+". "+help);
+  });
+}
+
+function renderSupport(){
+  const form=document.getElementById("supportForm");
+  form.innerHTML=supportVisible.map((text,i)=>`
+    <fieldset class="question">
+      <legend>${i+1}. ${text} <button type="button" class="read-btn" data-read-support="${i}" aria-label="Ouvir afirmação ${i+1}">🔊</button></legend>
+      <div class="scale">
+        ${[1,2,3,4,5].map(n=>`<label><input type="radio" name="support-${i}" value="${n}" ${Number(state.support[i])===n?"checked":""} aria-label="nota ${n} de 5"><span>${n}</span></label>`).join("")}
+      </div>
+      <small>1 = discordo totalmente · 5 = concordo totalmente</small>
+    </fieldset>`).join("");
+  form.querySelectorAll("input").forEach(inp=>inp.addEventListener("change",e=>{
+    const i=Number(e.target.name.split("-")[1]);
+    state.support[i]=Number(e.target.value);
+    state.completed.support=state.support.every(v=>Number(v)>=1);
+    saveState();
+  }));
+  form.querySelectorAll("[data-read-support]").forEach(btn=>btn.onclick=()=>readText(supportVisible[Number(btn.dataset.readSupport)]+". Responda de 1, discordo totalmente, a 5, concordo totalmente."));
+}
+
+function updateProgress(){
+  const keys=["temperament","personality","wheel","project","support"];
+  const done=keys.filter(k=>state.completed[k]).length,pct=done*20;
+  document.getElementById("progressBar").style.width=pct+"%";
+  document.getElementById("progressText").textContent=pct+"%";
+  document.getElementById("stars").textContent=Array.from({length:5},(_,i)=>i<done?"★":"☆").join(" ");
+  document.getElementById("stars").setAttribute("aria-label",`${done} de 5 etapas concluídas`);
+  const names=["Temperamentos","Personalidade","Roda da vida","Projeto de vida","Apoio"];
+  document.getElementById("trail").innerHTML=names.map((n,i)=>`<div class="trail-step ${i<done?"done":""}">${i<done?"★":"☆"}<br>${n}</div>`).join("");
+}
+
+function escapeHtml(s){
+  return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+}
+function listHtml(items){return `<ul>${items.map(x=>`<li>${escapeHtml(x)}</li>`).join("")}</ul>`}
+
+function wheelAnalysis(){
+  const vals=wheelAreas.map(([k,l,meaning])=>({key:k,label:l,meaning,value:Number(state.wheel[k])}));
+  const avg=Math.round(vals.reduce((a,b)=>a+b.value,0)/vals.length*10)/10;
+  const max=Math.max(...vals.map(v=>v.value)),min=Math.min(...vals.map(v=>v.value)),diff=max-min;
+  const balance=diff<=2?"equilibrada":diff<=5?"moderadamente desigual":"muito desigual";
+  const sorted=[...vals].sort((a,b)=>b.value-a.value);
+  return {vals,avg,diff,balance,strong:sorted.slice(0,2),priority:[...sorted].reverse().slice(0,2)};
+}
+
+function reflectionFor(area,low=false){
+  const q={
+    saude:"Que pequeno cuidado com seu corpo ou sua energia cabe na sua semana?",
+    familia:"Que conversa ou gesto pode melhorar sua convivência familiar?",
+    amigos:"Que relação merece mais presença, diálogo ou limite?",
+    estudos:"Qual hábito de estudo pode melhorar seu aprendizado nesta semana?",
+    carreira:"Qual informação sobre profissão ou trabalho você pode buscar agora?",
+    financas:"Que gasto, registro ou meta financeira pequena você pode organizar?",
+    lazer:"O que pode trazer descanso de verdade sem atrapalhar suas responsabilidades?",
+    proposito:"Que escolha desta semana combina com aquilo que você considera importante?"
+  };
+  const a={
+    saude:"Escolha um horário de sono, refeição ou movimento para cuidar por 7 dias.",
+    familia:"Separe 15 minutos para uma conversa sem celular com alguém importante.",
+    amigos:"Procure uma pessoa de confiança ou pratique um limite saudável.",
+    estudos:"Reserve dois blocos de 25 minutos para revisar um conteúdo.",
+    carreira:"Pesquise uma função profissional e anote três competências exigidas.",
+    financas:"Registre seus gastos por sete dias.",
+    lazer:"Agende uma atividade simples que realmente lhe dê descanso.",
+    proposito:"Escreva uma decisão que gostaria de tomar de modo coerente com seus valores."
+  };
+  return {q:q[area.key],a:a[area.key]};
+}
+
+function renderReports(){
+  const wrap=document.getElementById("reportsContainer");
+  let out="";
+
+  if(state.completed.temperament&&state.completed.personality){
+    const tr=calcTemperament(),tm=temperamentMeta[tr.pred],ts=temperamentMeta[tr.secondary],pr=calcPersonality(),type=pr.type;
+    out+=`<article class="report" id="report-1">
+      <div class="eyebrow">Relatório 1</div>
+      <h2>Personalidade e temperamentos</h2>
+      <p><strong>Importante:</strong> este relatório mostra tendências, não limites. O questionário de personalidade é original e inspirado nas quatro dimensões popularizadas pelo MBTI; não é o teste oficial.</p>
+      <h3>Temperamento</h3>
+      <p>Sua tendência predominante foi <strong>${tm.label}</strong>, com <strong>${ts.label}</strong> como tendência secundária.</p>
+      ${Object.keys(tr.pct).map(k=>`<div style="margin:9px 0"><div style="display:flex;justify-content:space-between"><span>${temperamentMeta[k].label}</span><strong>${tr.pct[k]}%</strong></div><div class="bar"><span style="width:${tr.pct[k]}%"></span></div></div>`).join("")}
+      <div class="grid grid-2" style="margin-top:16px">
+        <div><h3>Pontos fortes possíveis</h3>${listHtml(tm.strong)}</div>
+        <div><h3>O que pode desenvolver</h3>${listHtml(tm.develop)}</div>
+      </div>
+      <h3>Tarefas administrativas em que esse estilo pode ajudar</h3>${listHtml(tm.work)}
+      <p><strong>Exemplos populares e não oficiais:</strong> ${tm.famous.join(" e ")} aparecem com frequência em listas informais associadas a esse temperamento. Isso não significa que tenham feito este teste ou que a classificação seja comprovada.</p>
+      <hr>
+      <h3>${type} · ${typeNames[type]}</h3>
+      <p>${typeDescriptions[type]}</p>
+      ${Object.entries(pr.dims).map(([d,v])=>`<div style="margin:12px 0"><div style="display:flex;justify-content:space-between"><span>${d}: <strong>${v.pole}</strong> — ${v.intensity}</span><strong>${v.dominant}%</strong></div><div class="bar"><span style="width:${v.dominant}%"></span></div><small>${dimensionText[v.pole]}</small></div>`).join("")}
+      <div class="grid grid-2">
+        <div><h3>Pontos fortes possíveis</h3>${listHtml(typeStrengths[type])}</div>
+        <div><h3>O que pode desenvolver</h3>${listHtml(typeDevelop[type])}</div>
+      </div>
+      <h3>Funções de trabalho que podem combinar com essas tendências</h3>${listHtml(typeWork[type])}
+      <p><strong>Exemplos populares e não oficiais:</strong> ${popularExamples[type].join(" e ")} são frequentemente associados a ${type} em listas de tipologia. Não há comprovação de que tenham realizado o teste oficial.</p>
+      <h3>Para refletir</h3>
+      <ol><li>Que ponto deste resultado realmente aparece no seu comportamento em sala e no trabalho?</li><li>Qual característica você gostaria de desenvolver durante o curso?</li><li>Em que tipo de tarefa administrativa você gostaria de testar suas habilidades?</li></ol>
+      <div class="report-actions"><button class="btn btn-secondary" onclick="printReport('report-1')">🖨️ Imprimir / salvar PDF</button></div>
+    </article>`;
+  }else{
+    out+=`<article class="report"><h3>Relatório 1 ainda não disponível</h3><p>Conclua Temperamentos e Personalidade.</p></article>`;
+  }
+
+  if(state.completed.wheel){
+    const w=wheelAnalysis();
+    out+=`<article class="report" id="report-2">
+      <div class="eyebrow">Relatório 2</div>
+      <h2>Roda da Vida</h2>
+      <div class="radar-wrap">
+        <div>${document.getElementById("radarSvg")?.outerHTML||""}<p class="muted">${document.getElementById("radarDescription")?.textContent||""}</p></div>
+        <div>
+          <p><strong>Média geral:</strong> ${w.avg}/10</p>
+          <p><strong>Leitura do equilíbrio:</strong> ${w.balance}. A diferença entre sua maior e menor nota foi de ${w.diff} ponto(s).</p>
+          <p>Equilibrada = diferença até 2; moderadamente desigual = até 5; muito desigual = acima de 5.</p>
+        </div>
+      </div>
+      <div class="table-wrap"><table><thead><tr><th>Área</th><th>Nota</th><th>Situação</th><th>O que significa</th></tr></thead><tbody>
+      ${w.vals.map(v=>`<tr><td>${v.label}</td><td>${v.value}</td><td>${v.value<=4?"Precisa de atenção":v.value<=7?"Em desenvolvimento":"Ponto forte"}</td><td>${v.meaning}</td></tr>`).join("")}
+      </tbody></table></div>
+      <div class="grid grid-2" style="margin-top:18px">
+        <div><h3>Recursos</h3>${w.strong.map(v=>{const r=reflectionFor(v);return `<p><strong>${v.label} (${v.value})</strong><br>${r.q}</p>`}).join("")}</div>
+        <div><h3>Prioridades</h3>${w.priority.map(v=>{const r=reflectionFor(v,true);return `<p><strong>${v.label} (${v.value})</strong><br>${r.q}<br><em>Ação da semana:</em> ${r.a}</p>`}).join("")}</div>
+      </div>
+      <p>Você pode refazer a Roda da Vida depois de alguns meses e comparar o que mudou.</p>
+      <div class="report-actions"><button class="btn btn-secondary" onclick="printReport('report-2')">🖨️ Imprimir / salvar PDF</button></div>
+    </article>`;
+  }else{
+    out+=`<article class="report"><h3>Relatório 2 ainda não disponível</h3><p>Preencha sua Roda da Vida.</p></article>`;
+  }
+
+  if(state.completed.project){
+    out+=`<article class="report" id="report-3">
+      <div class="eyebrow">Relatório 3</div>
+      <h2>Meu Projeto de Vida</h2>
+      ${projectQuestions.map(([k,q])=>`<h3>${q}</h3><p>${escapeHtml(state.project[k]).replace(/\n/g,"<br>")}</p>`).join("")}
+      <div class="report-actions"><button class="btn btn-secondary" onclick="printReport('report-3')">🖨️ Imprimir / salvar PDF</button></div>
+    </article>`;
+  }else{
+    out+=`<article class="report"><h3>Relatório 3 ainda não disponível</h3><p>Complete as seis perguntas do Projeto de Vida.</p></article>`;
+  }
+  wrap.innerHTML=out;
+}
+
+function printReport(id){
+  const section=document.getElementById("sec-relatorios"),report=document.getElementById(id);
+  if(!report)return;
+  section.classList.add("printing");report.classList.add("print-target");
+  window.print();
+  setTimeout(()=>{section.classList.remove("printing");report.classList.remove("print-target")},300);
+}
+window.printReport=printReport;
+
+function switchSection(name){
+  currentSection=name;
+  document.querySelectorAll(".section").forEach(s=>s.classList.toggle("active",s.id==="sec-"+name));
+  document.querySelectorAll(".nav-btn").forEach(b=>{
+    if(b.dataset.section===name)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current");
+  });
+  document.getElementById("sidebar").classList.remove("open");
+  const title=document.querySelector("#sec-"+name+" .section-title");
+  if(title){title.focus({preventScroll:true});window.scrollTo({top:0,behavior:"smooth"})}
+  if(name==="relatorios")renderReports();
+}
+
+function setupNavigation(){
+  document.querySelectorAll(".nav-btn").forEach(b=>b.onclick=()=>switchSection(b.dataset.section));
+  document.getElementById("mobileMenuBtn").onclick=()=>document.getElementById("sidebar").classList.toggle("open");
+}
+
+function showApp(){
+  const p=state.profile;
+  document.getElementById("loginView").hidden=true;
+  document.getElementById("appView").hidden=false;
+  const first=safeText(p.name).split(/\s+/)[0];
+  document.getElementById("helloName").textContent="Olá, "+first+"!";
+  document.getElementById("helloMeta").textContent=p.code+" · "+p.className;
+  document.getElementById("firstName").textContent=first;
+  renderStatic();updateProgress();renderReports();
+}
+
+function showLogin(){
+  document.getElementById("appView").hidden=true;
+  document.getElementById("loginView").hidden=false;
+  document.getElementById("loginTitle").focus();
+}
+
+document.getElementById("loginForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const name=safeText(document.getElementById("studentName").value);
+  const className=safeText(document.getElementById("studentClass").value);
+  const code=safeText(document.getElementById("studentCode").value).toUpperCase();
+  const consent=document.getElementById("consent").checked;
+  const st=document.getElementById("loginStatus");
+  st.className="status show warn";
+
+  if(name.length<3){st.textContent="Digite seu nome completo.";return}
+  if(!className){st.textContent="Informe a turma.";return}
+  if(!validCode(code)){st.textContent="Confira o código. Nesta turma ele deve estar entre UC1-001 e UC1-060.";return}
+  if(!consent){st.textContent="Para continuar, leia e marque o termo de transparência.";return}
+
+  const previous=state.profile;
+  if(previous && previous.code!==code){
+    const ok=confirm("Este aparelho possui progresso salvo para outro código. Deseja iniciar uma nova jornada neste aparelho?");
+    if(!ok)return;
+    state=defaultState();
+  }
+  state.profile={name,className,code,consentAt:new Date().toISOString()};
+  saveState();
+
+  st.textContent="Abrindo sua jornada…";
+  await sendToBackend(backendPayload("login",{etapaAtual:"Início"}));
+  showApp();
+});
+
+document.getElementById("saveNowBtn").onclick=()=>{
+  saveState(true);
+  sendToBackend(backendPayload("progresso",{
+    progresso:Object.values(state.completed).filter(Boolean).length*20,
+    etapaAtual:document.querySelector("#sec-"+currentSection)?.dataset.title||currentSection
+  }));
+};
+
+document.getElementById("logoutBtn").onclick=()=>{
+  if(confirm("Sair desta tela? Seu progresso continuará salvo neste aparelho."))showLogin();
+};
+
+document.getElementById("finishBtn").onclick=async()=>{
+  const st=document.getElementById("finishStatus");
+  const missing=[];
+  if(!state.completed.temperament)missing.push("Temperamentos");
+  if(!state.completed.personality)missing.push("Personalidade");
+  if(!state.completed.wheel)missing.push("Roda da Vida");
+  if(!state.completed.project)missing.push("Projeto de Vida");
+  if(!state.completed.support)missing.push("Apoio");
+
+  if(missing.length){
+    st.className="status show warn";
+    st.innerHTML="Antes de concluir, finalize: <strong>"+missing.join(", ")+"</strong>.";
+    return;
+  }
+
+  st.className="status show";
+  st.textContent="Enviando seus resultados para processamento…";
+  const payload=backendPayload("finalizar",{
+    progresso:100,
+    etapaAtual:"Concluído",
+    temperamentos:state.temperament,
+    personalidade:state.personality.map(Number),
+    roda:state.wheel,
+    projeto:state.project,
+    apoio:state.support.map(Number)
+  });
+
+  const ok=await sendToBackend(payload);
+  if(ok){
+    state.submitted=true;saveState();
+    st.className="status show ok";
+    st.innerHTML="<strong>Envio realizado para processamento.</strong> Seus relatórios pessoais já estão disponíveis na seção Relatórios. Se a professora solicitar conferência, mantenha este aparelho com o progresso salvo.";
+    toast("Jornada concluída.");
+    setTimeout(()=>switchSection("relatorios"),700);
+  }else{
+    st.className="status show warn";
+    st.textContent="Não foi possível despachar os dados agora. Seu progresso continua salvo neste aparelho. Verifique a internet e tente novamente.";
+  }
+};
+
+function restoreLoginFields(){
+  if(!state.profile)return;
+  document.getElementById("studentName").value=state.profile.name||"";
+  document.getElementById("studentClass").value=state.profile.className||"";
+  document.getElementById("studentCode").value=state.profile.code||"";
+  document.getElementById("consent").checked=true;
+}
+
+setupAccessibility();
+setupNavigation();
+loadState();
+restoreLoginFields();
+
+if(state.profile){
+  showApp();
+}else{
+  showLogin();
+}
+</script>
+</body>
+</html>
