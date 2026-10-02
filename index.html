@@ -503,7 +503,7 @@ h3{
 </style>
 </head>
 <body>
-<!-- layout-fix-v1.4 -->
+<!-- uc1-v1.6-envio-confirmado -->
 <a class="skip-link" href="#main">Ir para o conteúdo</a>
 
 <div class="accessibility" aria-label="Ferramentas de acessibilidade">
@@ -543,7 +543,8 @@ h3{
         </div>
         <div class="field">
           <label for="studentClass">Turma</label>
-          <input id="studentClass" name="studentClass" type="text" maxlength="80" value="Aprendizagem - Serviços Administrativos 2026.3" required>
+          <input id="studentClass" name="studentClass" type="text" value="Vinculada automaticamente ao código" readonly aria-describedby="classHelp">
+          <small id="classHelp" class="muted">Você não precisa digitar a turma. O sistema identifica a turma correta pelo seu código de acesso.</small>
         </div>
       </div>
 
@@ -1376,7 +1377,7 @@ function backendPayload(action,extra={}){
     action,
     codigo:state.profile?.code||"",
     nome:state.profile?.name||"",
-    turma:state.profile?.className||"",
+    turma:"__AUTO__",
     sessionId:sessionId(),
     clientInfo:clientInfo(),
     consentimento:true
@@ -1388,23 +1389,115 @@ function backendPayload(action,extra={}){
   Para preservar a simplicidade no GitHub Pages, o envio usa no-cors.
   O navegador confirma que o pedido foi despachado, mas não expõe a resposta.
 */
-async function sendToBackend(payload){
+function makeReceiptToken(){
   try{
+    const a=new Uint32Array(4);
+    crypto.getRandomValues(a);
+    return "r_"+Array.from(a).map(x=>x.toString(36)).join("_")+"_"+Date.now().toString(36);
+  }catch(e){
+    return "r_"+Date.now().toString(36)+"_"+Math.random().toString(36).slice(2,18);
+  }
+}
+
+function jsonpRequest(params,timeout=5500){
+  return new Promise((resolve,reject)=>{
+    const callback="uc1cb_"+Date.now().toString(36)+"_"+Math.random().toString(36).slice(2,8);
+    const script=document.createElement("script");
+    let done=false;
+
+    const clean=()=>{
+      if(done)return;
+      done=true;
+      try{delete window[callback]}catch(e){}
+      script.remove();
+    };
+
+    const timer=setTimeout(()=>{
+      clean();
+      reject(new Error("Tempo de confirmação excedido."));
+    },timeout);
+
+    window[callback]=(data)=>{
+      clearTimeout(timer);
+      clean();
+      resolve(data);
+    };
+
+    const qs=new URLSearchParams(Object.assign({},params,{callback}));
+    script.src=API_URL+"?"+qs.toString();
+    script.async=true;
+    script.onerror=()=>{
+      clearTimeout(timer);
+      clean();
+      reject(new Error("Não foi possível confirmar com o servidor."));
+    };
+    document.head.appendChild(script);
+  });
+}
+
+async function waitForReceipt(token){
+  for(let i=0;i<6;i++){
+    if(i>0) await new Promise(r=>setTimeout(r,650));
+    try{
+      const data=await jsonpRequest({action:"receipt",token},5000);
+      if(data && data.found) return data.receipt;
+    }catch(e){}
+  }
+  return null;
+}
+
+async function sendToBackend(payload,{confirm=false}={}){
+  try{
+    const body=Object.assign({},payload);
+
+    if(confirm){
+      body.receiptToken=makeReceiptToken();
+    }
+
     await fetch(API_URL,{
       method:"POST",
       mode:"no-cors",
       cache:"no-store",
       headers:{"Content-Type":"text/plain;charset=UTF-8"},
-      body:JSON.stringify(payload),
+      body:JSON.stringify(body),
       keepalive:true
     });
-    return true;
+
+    if(!confirm) return {ok:true,confirmed:false};
+
+    const receipt=await waitForReceipt(body.receiptToken);
+    if(!receipt){
+      return {
+        ok:false,
+        confirmed:false,
+        message:"O envio saiu deste aparelho, mas o sistema não conseguiu confirmar a gravação na planilha. Tente novamente."
+      };
+    }
+
+    if(!receipt.accepted){
+      return {
+        ok:false,
+        confirmed:true,
+        message:receipt.message||"O Google recebeu a tentativa, mas recusou os dados."
+      };
+    }
+
+    return {
+      ok:true,
+      confirmed:true,
+      message:receipt.message||"Dados gravados com sucesso.",
+      codigo:receipt.codigo
+    };
+
   }catch(e){
     console.warn("Falha de envio",e);
-    return false;
+    return {
+      ok:false,
+      confirmed:false,
+      message:"Não foi possível comunicar com a planilha agora. Verifique a internet e tente novamente."
+    };
   }
 }
-
 function readText(text){
   if(!("speechSynthesis" in window)){toast("Este navegador não oferece leitura por voz.");return}
   speechSynthesis.cancel();
@@ -1919,7 +2012,7 @@ function showApp(){
   document.getElementById("appView").hidden=false;
   const first=safeText(p.name).split(/\s+/)[0];
   document.getElementById("helloName").textContent="Olá, "+first+"!";
-  document.getElementById("helloMeta").textContent=p.code+" · "+p.className;
+  document.getElementById("helloMeta").textContent=p.code+" · turma vinculada automaticamente";
   document.getElementById("firstName").textContent=first;
   renderStatic();updateProgress();renderReports();
 }
@@ -1933,14 +2026,13 @@ function showLogin(){
 document.getElementById("loginForm").addEventListener("submit",async e=>{
   e.preventDefault();
   const name=safeText(document.getElementById("studentName").value);
-  const className=safeText(document.getElementById("studentClass").value);
+  const className="Turma vinculada ao código";
   const code=safeText(document.getElementById("studentCode").value).toUpperCase();
   const consent=document.getElementById("consent").checked;
   const st=document.getElementById("loginStatus");
   st.className="status show warn";
 
   if(name.length<3){st.textContent="Digite seu nome completo.";return}
-  if(!className){st.textContent="Informe a turma.";return}
   if(!validCode(code)){st.textContent="Confira o código. Nesta turma ele deve estar entre UC1-001 e UC1-060.";return}
   if(!consent){st.textContent="Para continuar, leia e marque o termo de transparência.";return}
 
@@ -1953,8 +2045,20 @@ document.getElementById("loginForm").addEventListener("submit",async e=>{
   state.profile={name,className,code,consentAt:new Date().toISOString()};
   saveState();
 
-  st.textContent="Abrindo sua jornada…";
-  await sendToBackend(backendPayload("login",{etapaAtual:"Início"}));
+  st.textContent="Conferindo seu código e vinculando seu nome à planilha…";
+  const loginResult=await sendToBackend(
+    backendPayload("login",{etapaAtual:"Início"}),
+    {confirm:true}
+  );
+
+  if(!loginResult.ok){
+    st.className="status show warn";
+    st.textContent=loginResult.message||"Não foi possível confirmar seu acesso.";
+    return;
+  }
+
+  st.className="status show ok";
+  st.textContent="Acesso confirmado.";
   showApp();
 });
 
@@ -2001,23 +2105,23 @@ document.getElementById("finishBtn").onclick=async()=>{
     apoio:state.support.map(Number)
   });
 
-  const ok=await sendToBackend(payload);
-  if(ok){
+  const result=await sendToBackend(payload,{confirm:true});
+  if(result.ok && result.confirmed){
     state.submitted=true;saveState();
     st.className="status show ok";
-    st.innerHTML="<strong>Envio realizado para processamento.</strong> Seus relatórios pessoais já estão disponíveis na seção Relatórios. Se a professora solicitar conferência, mantenha este aparelho com o progresso salvo.";
-    toast("Jornada concluída.");
+    st.innerHTML="<strong>Resultados recebidos e gravados na planilha com sucesso.</strong> Seus relatórios pessoais estão disponíveis na seção Relatórios.";
+    toast("Jornada concluída e confirmada.");
     setTimeout(()=>switchSection("relatorios"),700);
   }else{
     st.className="status show warn";
-    st.textContent="Não foi possível despachar os dados agora. Seu progresso continua salvo neste aparelho. Verifique a internet e tente novamente.";
+    st.innerHTML="<strong>O envio ainda não foi confirmado.</strong> "+escapeHtml(result.message||"Tente novamente em alguns instantes.")+"<br>Suas respostas continuam salvas neste aparelho; você não precisa refazer os testes.";
   }
 };
 
 function restoreLoginFields(){
   if(!state.profile)return;
   document.getElementById("studentName").value=state.profile.name||"";
-  document.getElementById("studentClass").value=state.profile.className||"";
+  document.getElementById("studentClass").value="Vinculada automaticamente ao código";
   document.getElementById("studentCode").value=state.profile.code||"";
   document.getElementById("consent").checked=true;
 }
