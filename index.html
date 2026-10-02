@@ -41,17 +41,19 @@
   }
 }
 *{box-sizing:border-box}
-html{font-size:calc(16px * var(--font-scale));scroll-behavior:smooth}
+html{font-size:16px;scroll-behavior:smooth;overflow-x:hidden}
 body{
   margin:0;background:var(--bg);color:var(--text);
   font-family:"Nunito",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  line-height:1.55;
+  font-size:calc(1rem * var(--font-scale));line-height:1.55;overflow-x:hidden;
 }
 button,input,textarea,select{font:inherit}
 button{cursor:pointer}
 button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,a:focus-visible{
   outline:4px solid #ffbf47;outline-offset:3px;
 }
+h1[tabindex="-1"]:focus,.section-title:focus{outline:none}
+.section-title{scroll-margin-top:120px}
 .skip-link{
   position:fixed;left:12px;top:-80px;background:#000;color:#fff;padding:12px 16px;
   z-index:9999;border-radius:10px;text-decoration:none;
@@ -62,18 +64,19 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-vis
   border-bottom:1px solid var(--line);backdrop-filter:blur(10px);
 }
 .access-inner{
-  max-width:1180px;margin:auto;display:flex;gap:8px;align-items:center;padding:9px 14px;overflow-x:auto;
+  max-width:1180px;margin:auto;display:flex;gap:8px;align-items:center;justify-content:flex-end;
+  padding:9px 14px;flex-wrap:wrap;overflow:visible;
 }
 .access-inner button,.access-inner select{
   min-height:44px;border:1px solid var(--line);background:var(--surface);color:var(--text);
   border-radius:12px;padding:8px 12px;font-weight:800;white-space:nowrap;
 }
-.access-label{font-weight:900;color:var(--brand);margin-right:auto;white-space:nowrap}
+.access-label{font-weight:900;color:var(--brand);margin-right:auto;white-space:nowrap;align-self:center}
 body.high-contrast{--bg:#000;--surface:#000;--surface-2:#111;--text:#fff;--muted:#fff;--line:#ffe600;--brand:#ffe600;--brand-dark:#ffe600;--brand-soft:#161600}
 body.high-contrast .btn-primary{background:#ffe600!important;color:#000!important}
 body.readable,body.readable *{font-family:Verdana,Arial,sans-serif!important;letter-spacing:.04em;line-height:1.75}
-.app-shell{max-width:1180px;margin:0 auto;padding:20px 16px 70px}
-.login-shell{max-width:900px;margin:32px auto}
+.app-shell{width:min(1180px,100%);margin:0 auto;padding:20px 20px 70px}
+.login-shell{width:min(1060px,100%);margin:24px auto}
 .hero{
   background:var(--surface);border:1px solid var(--line);border-radius:30px;padding:32px;
   box-shadow:var(--shadow);position:relative;overflow:hidden;
@@ -84,8 +87,8 @@ body.readable,body.readable *{font-family:Verdana,Arial,sans-serif!important;let
 }
 .eyebrow{font-size:.85rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:var(--brand)}
 h1,h2,h3{line-height:1.15;margin:0 0 12px}
-h1{font-size:clamp(2rem,6vw,3.6rem);max-width:760px}
-h2{font-size:clamp(1.55rem,4vw,2.35rem)}
+h1{font-size:clamp(2rem,4.4vw,3.25rem);max-width:780px;overflow-wrap:break-word;text-wrap:balance}
+h2{font-size:clamp(1.5rem,3vw,2.2rem);text-wrap:balance}
 h3{font-size:1.2rem}
 .lead{font-size:1.08rem;color:var(--muted);max-width:760px}
 .grid{display:grid;gap:16px}
@@ -117,7 +120,7 @@ textarea{min-height:130px;resize:vertical}
 .btn-ghost{background:transparent;color:var(--brand);border:1px solid var(--brand)}
 .btn[disabled]{opacity:.45;cursor:not-allowed}
 .topbar{
-  display:flex;gap:14px;align-items:center;justify-content:space-between;margin:18px 0;
+  display:flex;gap:14px;align-items:center;justify-content:space-between;margin:18px 0;flex-wrap:wrap;
 }
 .user-chip{display:flex;align-items:center;gap:10px}
 .avatar-mini{
@@ -134,7 +137,7 @@ textarea{min-height:130px;resize:vertical}
   text-align:left;padding:10px 12px;font-weight:800;display:flex;gap:10px;align-items:center
 }
 .nav-btn:hover,.nav-btn[aria-current=page]{background:var(--brand-soft);color:var(--brand-dark)}
-.content{min-width:0}
+.content{min-width:0;width:100%;overflow:visible}
 .section{display:none}
 .section.active{display:block}
 .section-head{margin-bottom:18px}
@@ -152,26 +155,31 @@ textarea{min-height:130px;resize:vertical}
 .pillar .icon{font-size:2rem}
 .challenge{background:var(--brand);color:#fff;border-radius:22px;padding:22px}
 .challenge p{margin-bottom:0}
-.trail{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:14px}
+.trail{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:10px;margin-top:14px}
 .trail-step{
   border:1px solid var(--line);background:var(--surface);border-radius:15px;padding:12px;text-align:center;
   font-size:.88rem;font-weight:800
 }
 .trail-step.done{border-color:var(--brand);background:var(--brand-soft)}
 .question{
-  margin:0 0 16px;background:var(--surface);border:1px solid var(--line);
-  border-radius:18px;padding:18px
+  min-width:0;width:100%;margin:0 0 18px;background:var(--surface);border:1px solid var(--line);
+  border-radius:18px;padding:16px 18px 18px;overflow:visible
 }
-.question legend{padding:0 8px;font-weight:900}
+.question legend{
+  display:block;width:auto;max-width:calc(100% - 4px);padding:0 6px 8px 4px;margin:0;
+  font-weight:900;line-height:1.45;white-space:normal;overflow-wrap:anywhere
+}
 .read-btn{
   border:1px solid var(--line);background:var(--surface-2);color:var(--text);
-  min-width:44px;min-height:44px;border-radius:12px;margin-left:8px
+  width:44px;min-width:44px;height:44px;min-height:44px;border-radius:12px;margin-left:8px;
+  vertical-align:middle;padding:0;display:inline-grid;place-items:center
 }
 .options{display:grid;gap:10px;margin-top:12px}
 .option{
-  border:2px solid var(--line);border-radius:14px;padding:11px 12px;display:flex;gap:10px;
-  align-items:flex-start;background:var(--surface)
+  min-width:0;width:100%;border:2px solid var(--line);border-radius:14px;padding:12px 14px;
+  display:flex;gap:11px;align-items:flex-start;background:var(--surface);overflow:hidden
 }
+.option span{min-width:0;overflow-wrap:anywhere;word-break:normal}
 .option:has(input:checked){border-color:var(--brand);background:var(--brand-soft)}
 .option input{width:20px;height:20px;margin-top:2px}
 .scale{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:12px}
@@ -209,7 +217,7 @@ input[type=range]{width:100%;accent-color:var(--brand)}
 .report h3{color:var(--brand)}
 .report-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
 .table-wrap{overflow:auto}
-table{border-collapse:collapse;width:100%;min-width:650px}
+table{border-collapse:collapse;width:100%;min-width:620px}
 th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
 th{background:var(--surface-2)}
 .status{
@@ -261,288 +269,53 @@ strong{font-weight:900}
   .report.print-target{display:block!important}
   .radar{max-width:360px}
 }
-  /* ===== CORREÇÃO DE LAYOUT E RESPONSIVIDADE ===== */
 
-html {
-  font-size: 16px !important;
-  overflow-x: hidden;
+/* Ajustes de acabamento e responsividade v2 */
+@media(max-width:1100px){
+  .access-inner{justify-content:center}
+  .access-label{width:100%;text-align:center;margin:0 0 2px}
+  .hero{padding:28px}
+}
+@media(max-width:900px){
+  .app-shell{padding-left:16px;padding-right:16px}
+  .hero{padding:24px}
+  .question{padding:14px}
+  .question legend{max-width:100%}
+}
+@media(max-width:620px){
+  .accessibility{position:relative}
+  .access-inner{gap:6px;padding:8px}
+  .access-inner button,.access-inner select{min-height:42px;padding:7px 10px;font-size:.92rem}
+  .access-label{font-size:.9rem}
+  .app-shell{padding:10px 10px 52px}
+  .login-shell{margin:10px auto}
+  .hero{padding:20px 16px;border-radius:20px}
+  .hero:after{width:170px;height:170px;right:-75px;top:-75px;opacity:.5}
+  h1{font-size:clamp(1.85rem,9vw,2.45rem);line-height:1.08}
+  h2{font-size:clamp(1.4rem,7vw,1.9rem)}
+  .lead{font-size:1rem}
+  .notice{padding:14px}
+  .question{padding:12px;border-radius:16px}
+  .question legend{padding:0 2px 8px;line-height:1.42}
+  .read-btn{width:42px;min-width:42px;height:42px;min-height:42px;margin-left:5px}
+  .option{padding:11px 12px}
+  .scale{gap:5px}
+  .scale label{min-height:46px}
+  .topbar{margin:10px 0}
+  .user-chip{min-width:0}
+  .user-chip > div:last-child{min-width:0;overflow-wrap:anywhere}
+  .radar-wrap{gap:10px}
+  .table-wrap{margin-left:-4px;margin-right:-4px}
+}
+@media(max-width:390px){
+  .access-inner button,.access-inner select{font-size:.85rem;padding:6px 8px}
+  .hero{padding:18px 14px}
+  h1{font-size:1.9rem}
+  .btn{width:100%}
+  .topbar > div:last-child{width:100%}
+  .topbar > div:last-child .btn{flex:1}
 }
 
-body {
-  overflow-x: hidden;
-  font-size: calc(1rem * var(--font-scale));
-}
-
-/* evita aquelas linhas pretas nos títulos */
-h1[tabindex="-1"]:focus,
-.section-title:focus {
-  outline: none !important;
-  box-shadow: none !important;
-}
-
-.section-title {
-  scroll-margin-top: 110px;
-}
-
-/* largura geral */
-.app-shell {
-  width: min(1180px, 100%) !important;
-  max-width: 1180px;
-  margin: 0 auto;
-  padding-left: 20px;
-  padding-right: 20px;
-}
-
-.login-shell {
-  width: min(1060px, 100%) !important;
-  max-width: 1060px !important;
-  margin: 24px auto !important;
-}
-
-/* tela inicial */
-.hero {
-  width: 100%;
-  overflow: hidden;
-}
-
-.hero h1 {
-  font-size: clamp(2rem, 4.3vw, 3.2rem) !important;
-  line-height: 1.08;
-  max-width: 780px;
-  overflow-wrap: break-word;
-  word-break: normal;
-}
-
-/* barra de acessibilidade */
-.access-inner {
-  max-width: 1180px;
-  margin: auto;
-  display: flex;
-  flex-wrap: wrap !important;
-  gap: 8px;
-  align-items: center;
-  justify-content: flex-end;
-  overflow: visible !important;
-  padding: 9px 14px;
-}
-
-.access-label {
-  margin-right: auto;
-}
-
-/* impede estouro das colunas */
-.layout,
-.content,
-.section,
-form {
-  min-width: 0;
-  max-width: 100%;
-}
-
-/* perguntas */
-.question {
-  width: 100% !important;
-  min-width: 0 !important;
-  max-width: 100%;
-  padding: 16px 18px 18px !important;
-  overflow: visible !important;
-}
-
-.question legend {
-  display: block !important;
-  width: auto !important;
-  max-width: 100% !important;
-  white-space: normal !important;
-  overflow-wrap: anywhere;
-  word-break: normal;
-  line-height: 1.45;
-  padding: 0 6px 8px 4px !important;
-}
-
-/* botão de áudio */
-.read-btn {
-  width: 44px !important;
-  min-width: 44px !important;
-  height: 44px !important;
-  min-height: 44px !important;
-  padding: 0 !important;
-  display: inline-grid !important;
-  place-items: center;
-  vertical-align: middle;
-}
-
-/* alternativas */
-.options {
-  width: 100%;
-}
-
-.option {
-  width: 100% !important;
-  min-width: 0 !important;
-  padding: 12px 14px !important;
-  overflow: hidden;
-}
-
-.option span {
-  min-width: 0;
-  white-space: normal !important;
-  overflow-wrap: anywhere;
-}
-
-/* escalas 1 a 5 */
-.scale {
-  width: 100%;
-  min-width: 0;
-}
-
-.scale label {
-  min-width: 0;
-}
-
-/* roda da vida */
-.radar-wrap {
-  min-width: 0;
-}
-
-.radar {
-  max-width: 100%;
-  height: auto;
-}
-
-/* celular e tablet */
-@media (max-width: 900px) {
-
-  .access-inner {
-    justify-content: center;
-  }
-
-  .access-label {
-    width: 100%;
-    text-align: center;
-    margin: 0 0 3px;
-  }
-
-  .app-shell {
-    padding-left: 14px !important;
-    padding-right: 14px !important;
-  }
-
-  .hero {
-    padding: 24px 20px !important;
-  }
-
-  .question {
-    padding: 14px !important;
-  }
-}
-
-/* celular */
-@media (max-width: 620px) {
-
-  .accessibility {
-    position: relative !important;
-  }
-
-  .access-inner {
-    gap: 6px;
-    padding: 8px;
-  }
-
-  .access-inner button,
-  .access-inner select {
-    min-height: 42px;
-    padding: 7px 9px;
-    font-size: .9rem;
-  }
-
-  .app-shell {
-    padding: 10px 10px 55px !important;
-  }
-
-  .login-shell {
-    margin-top: 10px !important;
-  }
-
-  .hero {
-    padding: 20px 16px !important;
-    border-radius: 20px !important;
-  }
-
-  .hero:after {
-    width: 160px !important;
-    height: 160px !important;
-    right: -70px !important;
-    top: -70px !important;
-  }
-
-  .hero h1 {
-    font-size: clamp(1.85rem, 9vw, 2.45rem) !important;
-    line-height: 1.08;
-  }
-
-  h2 {
-    font-size: clamp(1.4rem, 7vw, 1.9rem) !important;
-  }
-
-  .lead {
-    font-size: 1rem;
-  }
-
-  .question {
-    padding: 12px !important;
-    border-radius: 16px;
-  }
-
-  .question legend {
-    padding: 0 2px 8px !important;
-    line-height: 1.4;
-  }
-
-  .option {
-    padding: 11px 12px !important;
-  }
-
-  .read-btn {
-    width: 42px !important;
-    min-width: 42px !important;
-    height: 42px !important;
-    min-height: 42px !important;
-    margin-left: 4px !important;
-  }
-
-  .scale {
-    gap: 5px !important;
-  }
-
-  .scale label {
-    min-height: 46px !important;
-  }
-
-  .topbar {
-    flex-wrap: wrap;
-  }
-
-  .radar-wrap {
-    grid-template-columns: 1fr !important;
-  }
-}
-
-@media (max-width: 390px) {
-
-  .access-inner button,
-  .access-inner select {
-    font-size: .83rem;
-    padding: 6px 7px;
-  }
-
-  .hero {
-    padding: 18px 14px !important;
-  }
-
-  .hero h1 {
-    font-size: 1.9rem !important;
-  }
-}
 </style>
 </head>
 <body>
@@ -573,8 +346,8 @@ form {
 
     <div class="notice">
       <strong>Transparência e cuidado.</strong>
-      <p>Suas respostas aos testes, à Roda da Vida, ao Projeto de Vida e ao questionário de apoio serão enviadas para a professora e para o psicólogo responsável, quando houver, com a finalidade de acolhimento e acompanhamento pedagógico. Os testes mostram tendências e não são diagnóstico clínico, previsão de comportamento ou definição de quem você é.</p>
-      <p>O aluno verá apenas seus três relatórios pessoais. A equipe poderá usar as respostas de apoio para conversar com você e pensar em estratégias de aprendizagem.</p>
+      <p>Suas respostas aos testes, à Roda da Vida, ao Projeto de Vida e ao questionário de apoio serão enviadas para a professora e para o psicólogo responsável, quando houver, com a finalidade de acolhimento e acompanhamento pedagógico. Os testes mostram tendências e não são diagnóstico clínico, previsão de comportamento ou definição de quem você é. O aplicativo não aplica inventários de traços patológicos reservados a profissionais de saúde.</p>
+      <p>O aluno verá apenas seus três relatórios pessoais. A professora e o psicólogo responsável, quando houver, também poderão visualizar uma síntese integrada criada pelo cruzamento das suas próprias respostas para orientar conversas de acolhimento e estratégias de aprendizagem. Essa síntese não é diagnóstico clínico, não prevê evasão ou comportamento e deve ser confirmada por conversa e observação.</p>
     </div>
 
     <form id="loginForm" autocomplete="off">
@@ -624,6 +397,8 @@ form {
       <button class="nav-btn" data-section="inicio" aria-current="page">🏠 Início</button>
       <button class="nav-btn" data-section="temperamentos">🎭 Temperamentos</button>
       <button class="nav-btn" data-section="personalidade">🧭 Personalidade</button>
+      <button class="nav-btn" data-section="bigfive">🌿 Cinco fatores</button>
+      <button class="nav-btn" data-section="emocional">💛 Autoconhecimento emocional</button>
       <button class="nav-btn" data-section="roda">🎯 Roda da vida</button>
       <button class="nav-btn" data-section="projeto">🗺️ Projeto de vida</button>
       <button class="nav-btn" data-section="apoio">🤝 Apoio</button>
@@ -636,7 +411,7 @@ form {
         <div class="section-head">
           <div class="eyebrow">Minha jornada</div>
           <h1 tabindex="-1" class="section-title">Bem-vindo(a), <span id="firstName"></span>!</h1>
-          <p class="lead">Você vai passar por cinco etapas. Cada etapa concluída rende uma estrela.</p>
+          <p class="lead">Você vai passar por sete etapas. Cada etapa concluída rende uma estrela.</p>
         </div>
 
         <div class="card">
@@ -644,7 +419,7 @@ form {
             <div class="progress" aria-label="Progresso da jornada"><span id="progressBar"></span></div>
             <strong id="progressText">0%</strong>
           </div>
-          <div class="stars" id="stars" aria-label="0 de 5 etapas concluídas">☆ ☆ ☆ ☆ ☆</div>
+          <div class="stars" id="stars" aria-label="0 de 7 etapas concluídas">☆ ☆ ☆ ☆ ☆ ☆ ☆</div>
           <div class="trail" id="trail"></div>
         </div>
 
@@ -664,7 +439,7 @@ form {
 
       <section id="sec-temperamentos" class="section" data-title="Temperamentos">
         <div class="section-head">
-          <div class="eyebrow">Etapa 1 de 5</div>
+          <div class="eyebrow">Etapa 1 de 7</div>
           <h1 tabindex="-1" class="section-title">Temperamentos</h1>
           <p class="lead">Escolha a alternativa que mais se aproxima de você na maior parte do tempo.</p>
         </div>
@@ -674,17 +449,37 @@ form {
 
       <section id="sec-personalidade" class="section" data-title="Personalidade">
         <div class="section-head">
-          <div class="eyebrow">Etapa 2 de 5</div>
+          <div class="eyebrow">Etapa 2 de 7</div>
           <h1 tabindex="-1" class="section-title">Personalidade</h1>
-          <p class="lead">Este teste é original e apenas inspirado nas quatro dimensões popularizadas pelo MBTI. <strong>Não é o teste oficial MBTI.</strong> Marque de 1 (discordo totalmente) a 5 (concordo totalmente).</p>
+          <p class="lead">Este questionário tem 40 afirmações e é original, inspirado nas quatro preferências popularizadas pelo modelo Myers-Briggs. <strong>Não é o instrumento MBTI® oficial.</strong> Marque de 1 (discordo totalmente) a 5 (concordo totalmente).</p>
         </div>
         <form id="personalityForm"></form>
         <div class="result-box" id="personalityResult" hidden></div>
       </section>
 
+      <section id="sec-bigfive" class="section" data-title="Cinco fatores">
+        <div class="section-head">
+          <div class="eyebrow">Etapa 3 de 7</div>
+          <h1 tabindex="-1" class="section-title">Cinco grandes fatores da personalidade</h1>
+          <p class="lead">Este questionário de 50 itens usa o modelo dos Cinco Grandes Fatores como referência de autoconhecimento. Os itens foram escritos especificamente para esta atividade educacional. Não é diagnóstico clínico.</p>
+        </div>
+        <form id="bigFiveForm"></form>
+        <div class="result-box" id="bigFiveResult" hidden></div>
+      </section>
+
+      <section id="sec-emocional" class="section" data-title="Autoconhecimento emocional">
+        <div class="section-head">
+          <div class="eyebrow">Etapa 4 de 7</div>
+          <h1 tabindex="-1" class="section-title">Autoconhecimento emocional</h1>
+          <p class="lead">São 15 afirmações sobre perceber emoções, regular reações e recuperar o equilíbrio. O resultado serve para reflexão e apoio pedagógico; não identifica transtornos nem substitui avaliação profissional.</p>
+        </div>
+        <form id="emotionalForm"></form>
+        <div class="result-box" id="emotionalResult" hidden></div>
+      </section>
+
       <section id="sec-roda" class="section" data-title="Roda da vida">
         <div class="section-head">
-          <div class="eyebrow">Etapa 3 de 5</div>
+          <div class="eyebrow">Etapa 5 de 7</div>
           <h1 tabindex="-1" class="section-title">Roda da vida</h1>
           <p class="lead">Dê uma nota de 0 a 10 para como você percebe cada área da sua vida hoje.</p>
         </div>
@@ -701,7 +496,7 @@ form {
 
       <section id="sec-projeto" class="section" data-title="Projeto de vida">
         <div class="section-head">
-          <div class="eyebrow">Etapa 4 de 5</div>
+          <div class="eyebrow">Etapa 6 de 7</div>
           <h1 tabindex="-1" class="section-title">Mapa da vida e projeto de vida</h1>
           <p class="lead">Escreva do seu jeito. Não precisa impressionar ninguém. O objetivo é organizar pensamento, sonhos e próximos passos.</p>
         </div>
@@ -710,9 +505,9 @@ form {
 
       <section id="sec-apoio" class="section" data-title="Apoio">
         <div class="section-head">
-          <div class="eyebrow">Etapa 5 de 5</div>
+          <div class="eyebrow">Etapa 7 de 7</div>
           <h1 tabindex="-1" class="section-title">Como posso ser melhor apoiado(a)?</h1>
-          <p class="lead">A professora e o psicólogo podem ler estas respostas para oferecer ajuda. Este questionário não gera diagnóstico nem rótulo.</p>
+          <p class="lead">A professora e o psicólogo podem ler estas respostas e cruzá-las com os demais resultados para orientar apoio pedagógico. O sistema não gera diagnóstico clínico, previsão de evasão ou rótulo.</p>
         </div>
         <div class="notice">
           Responda de 1 a 5 conforme as orientações de cada frase. Algumas falam de dificuldade; outras falam de recursos que você tem. Leia com atenção.
@@ -740,7 +535,7 @@ form {
         <div class="section-head">
           <div class="eyebrow">Seus resultados</div>
           <h1 tabindex="-1" class="section-title">Meus relatórios</h1>
-          <p class="lead">Os relatórios aparecem à medida que você conclui as etapas. Você pode imprimir ou salvar como PDF.</p>
+          <p class="lead">Os relatórios aparecem à medida que você conclui as etapas. O Relatório 1 traz uma leitura detalhada dos seus resultados, com exemplos, aplicações nos estudos e no trabalho, ações práticas e perguntas de reflexão. Você pode imprimir ou salvar como PDF.</p>
         </div>
         <div id="reportsContainer"></div>
       </section>
@@ -775,109 +570,145 @@ const challenges = [
   ["Atitude sustentável","Observe um desperdício de material, energia ou tempo e proponha uma mudança pequena."]
 ];
 
-const temperamentQuestions = [
-  {
-    q:"Em um grupo novo, o que costuma acontecer primeiro?",
-    a:[
-      ["sanguineo","Puxo conversa e tento deixar o ambiente mais leve."],
-      ["colerico","Procuro entender o objetivo e começo a organizar o que precisa ser feito."],
-      ["melancolico","Observo bastante antes de me posicionar."],
-      ["fleumatico","Vou me aproximando aos poucos e tento me adaptar ao ritmo do grupo."]
-    ]
-  },
-  {
-    q:"Quando surge um problema inesperado em uma tarefa, você tende a:",
-    a:[
-      ["sanguineo","Pensar em alternativas rapidamente e conversar com alguém."],
-      ["colerico","Tomar uma decisão e agir para resolver logo."],
-      ["melancolico","Analisar detalhes e tentar descobrir a causa."],
-      ["fleumatico","Manter a calma, evitar conflito e procurar uma saída segura."]
-    ]
-  },
-  {
-    q:"Em uma atividade com prazo curto, o que mais combina com você?",
-    a:[
-      ["sanguineo","Trabalho melhor quando posso interagir e trocar ideias."],
-      ["colerico","Gosto de definir prioridades e partir para a execução."],
-      ["melancolico","Prefiro organizar tudo para reduzir erros."],
-      ["fleumatico","Mantenho um ritmo constante e tento não me desesperar."]
-    ]
-  },
-  {
-    q:"Quando alguém discorda de você:",
-    a:[
-      ["sanguineo","Converso bastante e tento explicar meu ponto de vista."],
-      ["colerico","Defendo minha posição com firmeza."],
-      ["melancolico","Penso nos argumentos e nas consequências antes de responder."],
-      ["fleumatico","Procuro um meio-termo e tento preservar a relação."]
-    ]
-  },
-  {
-    q:"Qual elogio mais costuma combinar com você?",
-    a:[
-      ["sanguineo","Você anima as pessoas."],
-      ["colerico","Você faz as coisas acontecerem."],
-      ["melancolico","Você percebe detalhes que outros não percebem."],
-      ["fleumatico","Você transmite calma e equilíbrio."]
-    ]
-  },
-  {
-    q:"Qual dificuldade aparece com mais frequência?",
-    a:[
-      ["sanguineo","Começar animado(a) e depois perder um pouco o foco."],
-      ["colerico","Ficar impaciente quando as coisas demoram."],
-      ["melancolico","Pensar demais e ser muito exigente comigo."],
-      ["fleumatico","Adiar decisões para evitar tensão ou conflito."]
-    ]
-  },
-  {
-    q:"Em trabalhos em equipe, você costuma:",
-    a:[
-      ["sanguineo","Estimular a participação e a conversa."],
-      ["colerico","Assumir responsabilidades e cobrar andamento."],
-      ["melancolico","Revisar, organizar e cuidar da qualidade."],
-      ["fleumatico","Ouvir os lados e ajudar a manter o grupo unido."]
-    ]
-  },
-  {
-    q:"Diante de uma mudança de planos:",
-    a:[
-      ["sanguineo","Posso até gostar da novidade e improvisar."],
-      ["colerico","Quero saber rapidamente qual é o novo objetivo."],
-      ["melancolico","Preciso entender bem a mudança antes de me sentir confortável."],
-      ["fleumatico","Aceito, mas prefiro que a transição seja tranquila."]
-    ]
-  }
+const temperamentItems = [
+  {trait:"sanguineo", reverse:false, text:"Em grupos, costumo iniciar conversas e ajudar as pessoas a se soltarem."},
+  {trait:"colerico", reverse:false, text:"Quando uma tarefa está sem direção, tenho vontade de assumir a organização."},
+  {trait:"melancolico", reverse:false, text:"Antes de entregar algo, costumo revisar detalhes para reduzir erros."},
+  {trait:"fleumatico", reverse:false, text:"Mesmo quando o ambiente fica tenso, geralmente consigo manter a calma."},
+  {trait:"sanguineo", reverse:false, text:"Demonstro entusiasmo com facilidade quando uma ideia me anima."},
+  {trait:"colerico", reverse:false, text:"Prefiro tomar uma decisão razoável a ficar muito tempo sem decidir."},
+  {trait:"melancolico", reverse:false, text:"Gosto de entender causas e consequências antes de agir."},
+  {trait:"fleumatico", reverse:false, text:"Costumo ouvir lados diferentes antes de entrar em um conflito."},
+  {trait:"sanguineo", reverse:false, text:"Tenho facilidade para criar proximidade com pessoas novas."},
+  {trait:"colerico", reverse:false, text:"Metas desafiadoras costumam aumentar minha disposição para agir."},
+  {trait:"melancolico", reverse:false, text:"Percebo inconsistências e detalhes que outras pessoas às vezes deixam passar."},
+  {trait:"fleumatico", reverse:false, text:"Consigo manter um ritmo constante mesmo quando o trabalho é repetitivo."},
+  {trait:"sanguineo", reverse:true, text:"Mesmo em ambientes descontraídos, prefiro ficar sempre em segundo plano."},
+  {trait:"colerico", reverse:true, text:"Quando é preciso decidir, costumo esperar que outra pessoa assuma a responsabilidade."},
+  {trait:"melancolico", reverse:true, text:"Quase nunca sinto necessidade de conferir uma tarefa antes de considerá-la pronta."},
+  {trait:"fleumatico", reverse:true, text:"Pequenos conflitos costumam me tirar do equilíbrio por bastante tempo."},
+  {trait:"sanguineo", reverse:true, text:"Evito demonstrar animação, mesmo quando estou gostando muito de uma atividade."},
+  {trait:"colerico", reverse:true, text:"Se uma tarefa encontra resistência, minha tendência é desistir rapidamente de conduzi-la."},
+  {trait:"melancolico", reverse:true, text:"Normalmente ajo primeiro e só depois penso nas possíveis consequências."},
+  {trait:"fleumatico", reverse:true, text:"Tenho dificuldade para escutar quando alguém pensa de forma muito diferente de mim."},
+  {trait:"sanguineo", reverse:true, text:"Conhecer pessoas novas costuma ser algo que evito sempre que posso."},
+  {trait:"colerico", reverse:true, text:"Cobranças e metas costumam me paralisar em vez de me colocar em movimento."},
+  {trait:"melancolico", reverse:true, text:"Organização e qualidade raramente influenciam a forma como realizo uma tarefa."},
+  {trait:"fleumatico", reverse:true, text:"Quando algo dá errado, perco o ritmo com facilidade e demoro a retomá-lo."}
 ];
 
 const personalityItems = [
-  ["E/I","Eu ganho energia quando posso conversar e trocar ideias com outras pessoas."],
-  ["E/I","Em atividades coletivas, costumo pensar melhor falando."],
-  ["E/I","Sinto facilidade para iniciar contato com pessoas que ainda não conheço bem."],
-  ["E/I","Depois de muita interação, preciso de um tempo sozinho(a) para recuperar energia."],
-  ["E/I","Prefiro organizar meus pensamentos em silêncio antes de falar."],
-  ["E/I","Costumo me sentir mais confortável em grupos pequenos ou conversas individuais."],
+  ["EI","Interagir e trocar ideias com outras pessoas costuma aumentar minha energia."],
+  ["EI","Costumo organizar melhor meus pensamentos quando posso falar sobre eles."],
+  ["EI","Tenho facilidade para iniciar contato com pessoas que ainda não conheço bem."],
+  ["EI","Atividades em grupo costumam me estimular mais do que me cansar."],
+  ["EI","Geralmente expresso minhas reações e ideias enquanto elas ainda estão se formando."],
+  ["EI","Depois de muita interação, preciso de um tempo sozinho(a) para recuperar energia."],
+  ["EI","Prefiro refletir em silêncio antes de compartilhar uma opinião."],
+  ["EI","Consigo me concentrar melhor quando tenho algum espaço para trabalhar individualmente."],
+  ["EI","Normalmente penso bastante antes de falar em um grupo."],
+  ["EI","Ambientes com muita interação por longos períodos costumam me cansar."],
+  ["SN","Aprendo melhor quando recebo exemplos concretos e instruções claras."],
+  ["SN","Percebo com facilidade detalhes práticos de uma tarefa."],
+  ["SN","Gosto de começar pelo que já pode ser observado ou verificado."],
+  ["SN","Prefiro uma sequência de passos definida quando estou aprendendo algo novo."],
+  ["SN","Costumo confiar em métodos que já mostraram funcionar na prática."],
+  ["SN","Tenho facilidade para perceber possibilidades além daquilo que está evidente."],
+  ["SN","Gosto de imaginar diferentes caminhos antes de escolher um."],
+  ["SN","Ideias e conceitos me interessam mesmo antes de eu saber como aplicá-los."],
+  ["SN","Costumo perceber padrões e conexões entre assuntos diferentes."],
+  ["SN","Sinto curiosidade por maneiras novas de fazer algo, mesmo quando o método atual funciona."],
+  ["TF","Ao decidir, gosto de comparar critérios objetivos antes de escolher."],
+  ["TF","Consigo analisar um problema mesmo quando não gosto emocionalmente da conclusão."],
+  ["TF","Para mim, uma regra precisa ser aplicada com coerência para situações parecidas."],
+  ["TF","Quando há opiniões diferentes, procuro identificar quais argumentos têm melhor sustentação."],
+  ["TF","Em uma correção, prefiro clareza e objetividade."],
+  ["TF","Antes de decidir, penso muito em como cada pessoa será afetada."],
+  ["TF","Valores pessoais têm peso importante nas minhas escolhas."],
+  ["TF","Tenho facilidade para perceber quando alguém precisa de acolhimento."],
+  ["TF","Em conflitos, procuro preservar a relação sempre que isso for possível."],
+  ["TF","Uma decisão que parece lógica pode deixar de ser adequada para mim se ferir valores importantes."],
+  ["JP","Gosto de começar uma tarefa sabendo o que precisa ser feito e em qual ordem."],
+  ["JP","Prazos, listas e planejamento me ajudam a trabalhar melhor."],
+  ["JP","Sinto alívio quando uma decisão importante fica resolvida."],
+  ["JP","Costumo antecipar etapas para evitar correrias perto do prazo."],
+  ["JP","Prefiro ter uma rotina minimamente organizada para cumprir responsabilidades."],
+  ["JP","Gosto de manter opções abertas por mais tempo antes de decidir."],
+  ["JP","Adapto meu plano com facilidade quando aparece uma oportunidade melhor."],
+  ["JP","Trabalho bem quando posso ajustar o caminho durante a execução."],
+  ["JP","Mudanças de última hora podem me estimular quando abrem uma possibilidade interessante."],
+  ["JP","Prefiro descobrir alguns detalhes durante o caminho a definir tudo antecipadamente."]
+];
 
-  ["S/N","Aprendo melhor quando recebo exemplos concretos e instruções claras."],
-  ["S/N","Percebo com facilidade detalhes práticos de uma tarefa."],
-  ["S/N","Gosto de trabalhar com informações que posso observar e verificar."],
-  ["S/N","Tenho facilidade para imaginar possibilidades que ainda não existem."],
-  ["S/N","Costumo procurar conexões e significados além do que está evidente."],
-  ["S/N","Ideias novas me interessam mesmo antes de eu saber exatamente como aplicá-las."],
+const bigFiveItems = [
+  {factor:"extroversao", label:"Extroversão", reverse:false, text:"Costumo me sentir à vontade para conversar com pessoas diferentes."},
+  {factor:"extroversao", label:"Extroversão", reverse:false, text:"Em grupos, participo ativamente das conversas."},
+  {factor:"extroversao", label:"Extroversão", reverse:false, text:"Atividades sociais costumam aumentar minha disposição."},
+  {factor:"extroversao", label:"Extroversão", reverse:false, text:"Tenho facilidade para me apresentar e falar com pessoas novas."},
+  {factor:"extroversao", label:"Extroversão", reverse:false, text:"Frequentemente demonstro entusiasmo de forma visível."},
+  {factor:"extroversao", label:"Extroversão", reverse:true, text:"Prefiro passar despercebido(a) quando estou em grupo."},
+  {factor:"extroversao", label:"Extroversão", reverse:true, text:"Evito iniciar conversas sempre que posso."},
+  {factor:"extroversao", label:"Extroversão", reverse:true, text:"Depois de pouco tempo de interação social, já quero me afastar."},
+  {factor:"extroversao", label:"Extroversão", reverse:true, text:"Falar diante de pessoas costuma me deixar completamente retraído(a)."},
+  {factor:"extroversao", label:"Extroversão", reverse:true, text:"Raramente demonstro animação para quem está ao meu redor."},
+  {factor:"amabilidade", label:"Amabilidade", reverse:false, text:"Procuro tratar as pessoas com respeito mesmo quando discordo delas."},
+  {factor:"amabilidade", label:"Amabilidade", reverse:false, text:"Tenho facilidade para perceber quando alguém precisa de ajuda."},
+  {factor:"amabilidade", label:"Amabilidade", reverse:false, text:"Costumo considerar o ponto de vista do outro antes de responder."},
+  {factor:"amabilidade", label:"Amabilidade", reverse:false, text:"Prefiro cooperar quando uma tarefa depende de várias pessoas."},
+  {factor:"amabilidade", label:"Amabilidade", reverse:false, text:"Tento resolver conflitos sem humilhar ou diminuir ninguém."},
+  {factor:"amabilidade", label:"Amabilidade", reverse:true, text:"Quando posso levar vantagem, não me preocupo muito com o efeito sobre os outros."},
+  {factor:"amabilidade", label:"Amabilidade", reverse:true, text:"Tenho pouca paciência para ouvir problemas de outras pessoas."},
+  {factor:"amabilidade", label:"Amabilidade", reverse:true, text:"Em trabalhos em grupo, penso primeiro no que é melhor para mim."},
+  {factor:"amabilidade", label:"Amabilidade", reverse:true, text:"Costumo interpretar erros dos outros da pior forma possível."},
+  {factor:"amabilidade", label:"Amabilidade", reverse:true, text:"Para mim, competir é mais importante do que manter uma boa convivência."},
+  {factor:"conscienciosidade", label:"Conscienciosidade", reverse:false, text:"Costumo cumprir o que combinei dentro do prazo."},
+  {factor:"conscienciosidade", label:"Conscienciosidade", reverse:false, text:"Organizo minhas tarefas para não depender apenas da memória."},
+  {factor:"conscienciosidade", label:"Conscienciosidade", reverse:false, text:"Consigo continuar uma atividade mesmo depois que a novidade passa."},
+  {factor:"conscienciosidade", label:"Conscienciosidade", reverse:false, text:"Antes de entregar algo, verifico se falta alguma parte importante."},
+  {factor:"conscienciosidade", label:"Conscienciosidade", reverse:false, text:"Quando assumo uma responsabilidade, acompanho até a conclusão."},
+  {factor:"conscienciosidade", label:"Conscienciosidade", reverse:true, text:"Deixo tarefas importantes para a última hora mesmo quando poderia começar antes."},
+  {factor:"conscienciosidade", label:"Conscienciosidade", reverse:true, text:"Meu espaço ou meus arquivos costumam ficar tão desorganizados que isso atrapalha meu trabalho."},
+  {factor:"conscienciosidade", label:"Conscienciosidade", reverse:true, text:"Tenho dificuldade para manter hábitos ou rotinas por alguns dias seguidos."},
+  {factor:"conscienciosidade", label:"Conscienciosidade", reverse:true, text:"Começo várias coisas e frequentemente deixo sem terminar."},
+  {factor:"conscienciosidade", label:"Conscienciosidade", reverse:true, text:"Prazos costumam me pegar de surpresa porque não acompanho o andamento das tarefas."},
+  {factor:"estabilidade", label:"Estabilidade emocional", reverse:false, text:"Mesmo em dias difíceis, geralmente consigo recuperar meu equilíbrio depois de algum tempo."},
+  {factor:"estabilidade", label:"Estabilidade emocional", reverse:false, text:"Consigo manter alguma clareza para pensar quando estou sob pressão."},
+  {factor:"estabilidade", label:"Estabilidade emocional", reverse:false, text:"Pequenos contratempos costumam passar sem dominar meu dia inteiro."},
+  {factor:"estabilidade", label:"Estabilidade emocional", reverse:false, text:"Quando fico preocupado(a), consigo voltar a atenção para o que preciso fazer."},
+  {factor:"estabilidade", label:"Estabilidade emocional", reverse:false, text:"Normalmente reconheço que uma emoção forte vai diminuir com o tempo."},
+  {factor:"estabilidade", label:"Estabilidade emocional", reverse:true, text:"Meu humor muda de forma intensa por acontecimentos pequenos."},
+  {factor:"estabilidade", label:"Estabilidade emocional", reverse:true, text:"Preocupações costumam ocupar minha cabeça por muito tempo."},
+  {factor:"estabilidade", label:"Estabilidade emocional", reverse:true, text:"Quando algo dá errado, demoro bastante para voltar ao meu ritmo."},
+  {factor:"estabilidade", label:"Estabilidade emocional", reverse:true, text:"Fico muito tenso(a) com situações que outras pessoas parecem lidar com facilidade."},
+  {factor:"estabilidade", label:"Estabilidade emocional", reverse:true, text:"Em momentos de pressão, sinto que minhas emoções assumem completamente o controle."},
+  {factor:"abertura", label:"Abertura a experiências", reverse:false, text:"Gosto de aprender sobre assuntos que ainda não conheço."},
+  {factor:"abertura", label:"Abertura a experiências", reverse:false, text:"Tenho curiosidade por ideias diferentes das minhas."},
+  {factor:"abertura", label:"Abertura a experiências", reverse:false, text:"Consigo imaginar mais de uma solução para um mesmo problema."},
+  {factor:"abertura", label:"Abertura a experiências", reverse:false, text:"Atividades criativas costumam despertar meu interesse."},
+  {factor:"abertura", label:"Abertura a experiências", reverse:false, text:"Gosto de relacionar assuntos diferentes para formar novas ideias."},
+  {factor:"abertura", label:"Abertura a experiências", reverse:true, text:"Prefiro evitar qualquer assunto que questione o jeito como já penso."},
+  {factor:"abertura", label:"Abertura a experiências", reverse:true, text:"Quando encontro uma forma conhecida de fazer algo, não vejo motivo para conhecer alternativas."},
+  {factor:"abertura", label:"Abertura a experiências", reverse:true, text:"Tenho pouco interesse por arte, cultura, ciência ou ideias novas."},
+  {factor:"abertura", label:"Abertura a experiências", reverse:true, text:"Mudanças de perspectiva raramente despertam minha curiosidade."},
+  {factor:"abertura", label:"Abertura a experiências", reverse:true, text:"Prefiro repetir sempre as mesmas experiências a experimentar algo diferente."}
+];
 
-  ["T/F","Ao decidir, tento separar o problema das emoções do momento."],
-  ["T/F","Gosto de comparar argumentos e critérios antes de chegar a uma conclusão."],
-  ["T/F","Quando preciso corrigir algo, prefiro ser objetivo(a) e direto(a)."],
-  ["T/F","Antes de decidir, penso bastante em como as pessoas serão afetadas."],
-  ["T/F","Para mim, preservar respeito e harmonia pesa muito em uma decisão."],
-  ["T/F","Tenho facilidade para perceber quando alguém precisa de acolhimento."],
-
-  ["J/P","Gosto de começar uma tarefa sabendo o que precisa ser feito e em qual ordem."],
-  ["J/P","Prazos e listas me ajudam a trabalhar melhor."],
-  ["J/P","Sinto alívio quando uma decisão importante fica resolvida."],
-  ["J/P","Prefiro manter opções abertas por mais tempo antes de decidir."],
-  ["J/P","Adapto meu plano com facilidade quando aparece uma oportunidade melhor."],
-  ["J/P","Trabalho bem quando posso ajustar o caminho durante a execução."]
+const emotionalItems = [
+  {domain:"consciencia", label:"Consciência emocional", reverse:false, text:"Consigo perceber quando meu estado emocional começa a mudar."},
+  {domain:"consciencia", label:"Consciência emocional", reverse:false, text:"Geralmente consigo dar um nome ao que estou sentindo."},
+  {domain:"consciencia", label:"Consciência emocional", reverse:false, text:"Percebo sinais do meu corpo quando estou ficando muito tenso(a), irritado(a) ou preocupado(a)."},
+  {domain:"consciencia", label:"Consciência emocional", reverse:false, text:"Consigo identificar situações que costumam despertar determinadas emoções em mim."},
+  {domain:"consciencia", label:"Consciência emocional", reverse:true, text:"Muitas vezes só percebo que estava muito alterado(a) depois que tudo já passou."},
+  {domain:"regulacao", label:"Regulação em situações difíceis", reverse:false, text:"Quando fico muito irritado(a) ou ansioso(a), consigo fazer uma pausa antes de agir."},
+  {domain:"regulacao", label:"Regulação em situações difíceis", reverse:false, text:"Tenho pelo menos uma estratégia saudável que me ajuda a me acalmar."},
+  {domain:"regulacao", label:"Regulação em situações difíceis", reverse:false, text:"Mesmo sob pressão, consigo pensar em consequências antes de tomar uma decisão."},
+  {domain:"regulacao", label:"Regulação em situações difíceis", reverse:false, text:"Quando um problema parece enorme, consigo dividi-lo em partes menores."},
+  {domain:"regulacao", label:"Regulação em situações difíceis", reverse:true, text:"Quando uma emoção fica forte, costumo agir imediatamente sem pensar no que pode acontecer depois."},
+  {domain:"recuperacao", label:"Recuperação e busca de apoio", reverse:false, text:"Depois de um dia difícil, consigo aos poucos retomar minhas atividades."},
+  {domain:"recuperacao", label:"Recuperação e busca de apoio", reverse:false, text:"Quando não consigo lidar sozinho(a), consigo procurar alguém de confiança."},
+  {domain:"recuperacao", label:"Recuperação e busca de apoio", reverse:false, text:"Consigo lembrar que um erro ou dificuldade não define tudo sobre mim."},
+  {domain:"recuperacao", label:"Recuperação e busca de apoio", reverse:false, text:"Depois de um conflito, consigo refletir sobre o que aconteceu e pensar no próximo passo."},
+  {domain:"recuperacao", label:"Recuperação e busca de apoio", reverse:true, text:"Quando algo me abala, costumo sentir que não existe nada que possa me ajudar naquele momento."}
 ];
 
 const wheelAreas = [
@@ -1076,18 +907,234 @@ const dimensionText = {
   P:"Você tende a preferir flexibilidade, exploração e adaptação."
 };
 
+
+const bigFiveMeta = {
+  extroversao:{
+    meaning:"Extroversão descreve quanto você tende a buscar interação, estímulo social e expressão visível de energia. Ela não mede simpatia, competência social ou capacidade de liderança.",
+    low:"Neste preenchimento, você relatou uma preferência maior por interações seletivas, ambientes menos estimulantes ou algum tempo para pensar antes de se expor. Isso pode ser um recurso em tarefas que pedem concentração e escuta.",
+    mid:"Suas respostas ficaram em uma faixa intermediária. Você pode circular entre momentos de participação ativa e momentos de maior reserva, dependendo das pessoas, da tarefa e do ambiente.",
+    high:"Neste preenchimento, você relatou com frequência comportamentos ligados à interação, iniciativa social e expressão de entusiasmo. Isso pode facilitar contatos, apresentações e atividades em grupo.",
+    study:"Nos estudos, pode aparecer na forma como você participa de debates, pede ajuda, trabalha em grupo ou prefere preparar suas ideias antes de falar.",
+    work:"Em Serviços Administrativos, pode influenciar atendimento, recepção, comunicação interna, reuniões e tarefas que alternam contato com pessoas e trabalho individual.",
+    actionLow:"Em uma atividade de grupo, prepare uma contribuição curta antes da aula e experimente apresentá-la ao menos uma vez.",
+    actionMid:"Observe em quais situações você rende melhor falando com outras pessoas e em quais precisa de silêncio para organizar as ideias.",
+    actionHigh:"Em uma conversa ou atividade coletiva, experimente praticar escuta ativa antes de responder, deixando espaço para pessoas mais reservadas.",
+    reflection:"Em que situações a interação com outras pessoas aumenta sua energia e em quais ela exige recuperação?"
+  },
+  amabilidade:{
+    meaning:"Amabilidade descreve tendências de cooperação, consideração, confiança e cuidado com o impacto das próprias atitudes. Não significa concordar com tudo nem evitar limites.",
+    low:"Suas respostas mostram uma postura mais crítica, competitiva ou independente nas relações. Isso pode ajudar em negociações e decisões difíceis, desde que venha acompanhado de respeito e escuta.",
+    mid:"Suas respostas sugerem equilíbrio entre cooperação e afirmação das próprias posições. Você pode adaptar seu jeito conforme a situação e as pessoas envolvidas.",
+    high:"Você relatou com frequência comportamentos ligados à cooperação, respeito e atenção às necessidades das outras pessoas. Isso pode favorecer convivência e trabalho em equipe.",
+    study:"Nos estudos, pode aparecer em trabalhos coletivos, divisão de tarefas, abertura para feedback e modo de lidar com discordâncias.",
+    work:"No ambiente administrativo, pode influenciar atendimento, relacionamento com colegas, mediação de demandas e comunicação com clientes.",
+    actionLow:"Em uma discordância, antes de defender seu ponto, resuma com suas palavras o que a outra pessoa está tentando dizer.",
+    actionMid:"Observe quando é melhor cooperar e quando é necessário colocar um limite claro sem transformar a conversa em conflito.",
+    actionHigh:"Pratique dizer 'não' ou discordar com respeito quando uma demanda ultrapassar seus limites ou responsabilidades.",
+    reflection:"Você costuma ceder demais, competir demais ou consegue equilibrar cooperação e posicionamento?"
+  },
+  conscienciosidade:{
+    meaning:"Conscienciosidade descreve organização, persistência, acompanhamento de tarefas e responsabilidade com prazos. Não é uma medida de caráter ou valor pessoal.",
+    low:"Neste preenchimento, planejamento e manutenção de rotinas apareceram com menor frequência. Você pode funcionar melhor com tarefas curtas, lembretes visuais e metas divididas em etapas.",
+    mid:"Suas respostas indicam organização variável: em algumas tarefas você consegue planejar e persistir, enquanto em outras pode depender mais de interesse, urgência ou estrutura externa.",
+    high:"Você relatou com frequência comportamentos ligados a planejamento, responsabilidade, conferência e continuidade de tarefas.",
+    study:"Nos estudos, isso pode aparecer na forma como organiza materiais, acompanha prazos, revisa atividades e continua trabalhando depois que a novidade passa.",
+    work:"Em Serviços Administrativos, pode ajudar em controle de documentos, agendas, planilhas, conferências, cadastros e acompanhamento de processos.",
+    actionLow:"Escolha uma tarefa da semana, divida em três passos e coloque cada passo em um horário concreto.",
+    actionMid:"Escolha uma rotina que costuma oscilar e teste por sete dias um lembrete simples ou checklist.",
+    actionHigh:"Antes de começar uma tarefa, defina o ponto em que ela estará 'boa o suficiente' para evitar excesso de revisão ou perfeccionismo.",
+    reflection:"Sua organização ajuda você a agir ou às vezes vira cobrança excessiva e dificuldade para começar?"
+  },
+  estabilidade:{
+    meaning:"Estabilidade emocional, neste questionário, descreve como você percebe sua capacidade de recuperar equilíbrio e manter alguma clareza quando enfrenta tensão ou contratempos. Não é diagnóstico de ansiedade, depressão ou qualquer transtorno.",
+    low:"Você relatou que preocupações, tensão ou contratempos podem permanecer por mais tempo e interferir mais no seu ritmo. Isso não define você; indica uma área em que estratégias de apoio e regulação podem ser úteis.",
+    mid:"Suas respostas mostram que sua reação emocional varia conforme a situação. Em algumas circunstâncias você recupera o equilíbrio com facilidade; em outras, pode precisar de mais tempo ou apoio.",
+    high:"Você relatou com frequência capacidade de recuperar o equilíbrio depois de contratempos e manter alguma clareza sob pressão.",
+    study:"Nos estudos, isso pode aparecer antes de avaliações, apresentações, correções, conflitos ou quando uma atividade não sai como esperado.",
+    work:"No trabalho, pode aparecer diante de cobrança, atendimento difícil, erro, mudança de prioridade ou prazo apertado.",
+    actionLow:"Escolha uma situação que costuma gerar tensão e escreva antes dela: o que está sob seu controle, quem pode ajudar e qual será seu primeiro passo.",
+    actionMid:"Observe quais situações ajudam você a se recuperar mais rápido e transforme uma delas em estratégia consciente.",
+    actionHigh:"Use sua capacidade de manter a calma sem ignorar o que sente; reconhecer limites também faz parte de lidar bem com pressão.",
+    reflection:"O que costuma ajudá-lo(a) a recuperar o equilíbrio quando alguma coisa dá errado?"
+  },
+  abertura:{
+    meaning:"Abertura a experiências descreve curiosidade, imaginação, interesse por ideias novas e disposição para considerar perspectivas diferentes. Não é uma medida de inteligência.",
+    low:"Suas respostas mostram preferência maior por métodos conhecidos, aplicações concretas e experiências familiares. Isso pode favorecer consistência e praticidade.",
+    mid:"Você parece combinar interesse pelo novo com necessidade de avaliar utilidade e segurança antes de mudar de caminho.",
+    high:"Você relatou com frequência curiosidade por ideias, perspectivas e maneiras diferentes de resolver problemas.",
+    study:"Nos estudos, pode aparecer em pesquisas, criatividade, conexão entre assuntos, interesse por desafios e disposição para experimentar métodos novos.",
+    work:"Em atividades administrativas, pode ajudar na melhoria de processos, comunicação, criação de soluções e adaptação a novas ferramentas.",
+    actionLow:"Escolha uma tarefa conhecida e pesquise uma forma alternativa de realizá-la, comparando vantagens e desvantagens.",
+    actionMid:"Antes de adotar uma novidade, experimente perguntar: 'o que ela melhora e o que pode complicar?'",
+    actionHigh:"Escolha uma ideia nova e transforme-a em um pequeno teste prático, com prazo e critério para avaliar se realmente funciona.",
+    reflection:"Você costuma rejeitar novidades cedo demais ou se entusiasmar antes de verificar se elas funcionam?"
+  }
+};
+
+const emotionalMeta = {
+  consciencia:{
+    meaning:"Consciência emocional é a capacidade percebida de notar mudanças no próprio estado, reconhecer sinais do corpo e dar nome ao que está sentindo.",
+    low:"Suas respostas sugerem que algumas emoções podem ser percebidas com mais clareza somente depois que a situação passou. Essa percepção pode ser treinada.",
+    mid:"Você parece reconhecer parte do que sente, mas essa clareza pode variar conforme a intensidade da situação ou o nível de cansaço.",
+    high:"Você relatou boa percepção de sinais emocionais e das situações que costumam provocar determinadas reações.",
+    study:"Em sala, isso pode ajudar a perceber ansiedade antes de uma apresentação, irritação em uma atividade difícil ou cansaço antes de perder o foco.",
+    work:"No trabalho, pode ajudar a reconhecer tensão antes de responder a um cliente, colega ou cobrança de prazo.",
+    actionLow:"Durante três dias, registre uma situação, a emoção percebida, a intensidade de 0 a 10 e o que você precisava naquele momento.",
+    actionMid:"Quando perceber mudança de humor, pare por 30 segundos e tente completar: 'Estou sentindo ___ porque ___; agora preciso ___'.",
+    actionHigh:"Continue nomeando o que sente e observe se consegue diferenciar emoções parecidas, como frustração, medo, vergonha, irritação e cansaço.",
+    reflection:"Você costuma perceber o que está sentindo durante a situação ou somente depois que ela termina?"
+  },
+  regulacao:{
+    meaning:"Regulação em situações difíceis é a capacidade percebida de criar uma pequena pausa entre emoção e ação, pensar em consequências e escolher uma resposta mais útil.",
+    low:"Suas respostas sugerem que, quando uma emoção fica forte, pode ser difícil desacelerar antes de agir. Isso é uma habilidade praticável, não uma característica fixa.",
+    mid:"Em algumas situações você consegue pausar e organizar a resposta; em outras, a intensidade emocional pode reduzir essa margem de escolha.",
+    high:"Você relatou com frequência estratégias para pausar, pensar em consequências e organizar problemas mesmo sob alguma pressão.",
+    study:"Nos estudos, isso pode aparecer diante de nota baixa, dificuldade com conteúdo, conflito em equipe ou apresentação oral.",
+    work:"No trabalho, pode aparecer em cobrança, erro, mudança inesperada, atendimento tenso ou pressão por prazo.",
+    actionLow:"Quando perceber a emoção aumentando, adie a resposta por um minuto: respire, identifique o objetivo da situação e escolha a próxima ação mais útil.",
+    actionMid:"Escolha uma estratégia que já funciona para você — pausa, água, respiração, escrever, pedir ajuda — e use-a de propósito na próxima situação difícil.",
+    actionHigh:"Observe se manter o controle não está virando silêncio excessivo. Regular emoção também inclui comunicar incômodo e pedir ajuda.",
+    reflection:"Quando você está irritado(a), ansioso(a) ou frustrado(a), o que ajuda a escolher a resposta em vez de agir no impulso?"
+  },
+  recuperacao:{
+    meaning:"Recuperação e busca de apoio descreve como você percebe sua capacidade de retomar atividades depois de dificuldades e procurar ajuda quando sozinho(a) não é suficiente.",
+    low:"Suas respostas sugerem que situações difíceis podem permanecer por mais tempo ou que pedir ajuda nem sempre é fácil. Ter apoio não é sinal de fraqueza.",
+    mid:"Você consegue se recuperar ou procurar apoio em algumas situações, mas isso pode depender da pessoa, do problema ou do ambiente.",
+    high:"Você relatou com frequência capacidade de retomar o ritmo, aprender com dificuldades e procurar pessoas de confiança quando necessário.",
+    study:"Nos estudos, isso pode aparecer depois de uma nota baixa, ausência, conflito, dificuldade de conteúdo ou erro em uma atividade.",
+    work:"No trabalho, pode aparecer depois de receber uma correção, cometer um erro, lidar com uma situação difícil ou precisar aprender algo novo.",
+    actionLow:"Liste duas pessoas ou serviços a quem você pode recorrer e uma frase simples que poderia usar para pedir ajuda.",
+    actionMid:"Escolha uma dificuldade recente e escreva o que você aprendeu, o que faria diferente e a quem pediria apoio se acontecesse de novo.",
+    actionHigh:"Use sua capacidade de recuperação para aprender com a situação sem minimizar emoções ou assumir problemas que deveriam ser compartilhados.",
+    reflection:"Quando algo dá errado, o que ajuda você a retomar o caminho e quem são as pessoas com quem consegue contar?"
+  }
+};
+
+const dimensionNames = {
+  E:"Extroversão",I:"Introversão",S:"Sensação / concretude",N:"Intuição / possibilidades",
+  T:"Pensamento lógico",F:"Valores e impacto humano",J:"Estrutura e planejamento",P:"Flexibilidade e adaptação"
+};
+
+function descriptiveBand(p){
+  if(p >= 45 && p <= 55) return "faixa intermediária — sem predominância marcada";
+  return p < 45 ? "menos presente neste preenchimento" : "mais presente neste preenchimento";
+}
+
+function emotionalBand(p){
+  if(p >= 45 && p <= 55) return "faixa intermediária";
+  return p < 45 ? "menos frequente nas respostas atuais" : "mais frequente nas respostas atuais";
+}
+
+function levelKey(p){
+  if(p >= 45 && p <= 55) return "mid";
+  return p < 45 ? "low" : "high";
+}
+
+function detailFor(meta,p){
+  const key=levelKey(p);
+  return {
+    narrative:meta[key],
+    action:meta["action"+key.charAt(0).toUpperCase()+key.slice(1)]
+  };
+}
+
+function renderBigFiveDetail(factor,x,compact=false){
+  const meta=bigFiveMeta[factor];
+  const d=detailFor(meta,x.percent);
+  return `<div class="${compact?"result-box":"card"}" style="margin:14px 0">
+    <div style="display:flex;gap:12px;justify-content:space-between;align-items:flex-start;flex-wrap:wrap">
+      <div><h3 style="margin-bottom:5px">${x.label}</h3><span class="pill">${descriptiveBand(x.percent)}</span></div>
+      <strong style="font-size:1.25rem">${x.percent}%</strong>
+    </div>
+    <div class="bar" style="margin:10px 0 14px"><span style="width:${x.percent}%"></span></div>
+    <p><strong>O que este fator observa:</strong> ${meta.meaning}</p>
+    <p><strong>Como ler seu resultado:</strong> ${d.narrative}</p>
+    <p><strong>Nos estudos:</strong> ${meta.study}</p>
+    <p><strong>No trabalho:</strong> ${meta.work}</p>
+    <p><strong>Experimente nesta semana:</strong> ${d.action}</p>
+    <p><strong>Para refletir:</strong> ${meta.reflection}</p>
+  </div>`;
+}
+
+function renderEmotionalDetail(domain,x,compact=false){
+  const meta=emotionalMeta[domain];
+  const d=detailFor(meta,x.percent);
+  return `<div class="${compact?"result-box":"card"}" style="margin:14px 0">
+    <div style="display:flex;gap:12px;justify-content:space-between;align-items:flex-start;flex-wrap:wrap">
+      <div><h3 style="margin-bottom:5px">${x.label}</h3><span class="pill">${emotionalBand(x.percent)}</span></div>
+      <strong style="font-size:1.25rem">${x.percent}%</strong>
+    </div>
+    <div class="bar" style="margin:10px 0 14px"><span style="width:${x.percent}%"></span></div>
+    <p><strong>O que significa:</strong> ${meta.meaning}</p>
+    <p><strong>Como ler seu resultado:</strong> ${d.narrative}</p>
+    <p><strong>Em sala de aula:</strong> ${meta.study}</p>
+    <p><strong>No trabalho:</strong> ${meta.work}</p>
+    <p><strong>Experimente:</strong> ${d.action}</p>
+    <p><strong>Para refletir:</strong> ${meta.reflection}</p>
+  </div>`;
+}
+
+function temperamentCombinationText(tr){
+  const first=temperamentMeta[tr.pred],second=temperamentMeta[tr.secondary];
+  const gap=Math.abs((tr.pct[tr.pred]||0)-(tr.pct[tr.secondary]||0));
+  const closeness=gap<=8
+    ? "As duas pontuações ficaram próximas, então faz mais sentido pensar em uma combinação do que em um único estilo dominante."
+    : "A primeira tendência apareceu com mais força, mas a segunda também pode influenciar bastante seu jeito de agir.";
+  const combos={
+    sanguineo:"Você tende a trazer expressão, contato e movimento para as situações.",
+    colerico:"Você tende a buscar ação, direção e resultado quando percebe um objetivo claro.",
+    melancolico:"Você tende a observar detalhes, pensar antes de agir e buscar qualidade.",
+    fleumatico:"Você tende a preservar calma, estabilidade e convivência antes de reagir."
+  };
+  return `${closeness} ${combos[tr.pred]} A influência ${second.label.toLowerCase()} acrescenta características como ${second.strong.slice(0,2).join(" e ").toLowerCase()}.`;
+}
+
+function mbtiDimensionHtml(pr){
+  const pairNames={EI:"Energia e interação",SN:"Forma de perceber informações",TF:"Critérios de decisão",JP:"Organização e adaptação"};
+  return Object.entries(pr.dims).map(([d,v])=>{
+    const near=v.dominant<=55;
+    return `<div class="card" style="margin:12px 0">
+      <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">
+        <h3>${pairNames[d]} · ${v.pole} (${dimensionNames[v.pole]})</h3>
+        <strong>${v.dominant}%</strong>
+      </div>
+      <div class="bar"><span style="width:${v.dominant}%"></span></div>
+      <p>${dimensionText[v.pole]}</p>
+      ${near?`<p><strong>Leitura:</strong> sua pontuação ficou muito perto do centro. Isso sugere flexibilidade entre os dois polos e não uma preferência forte.</p>`:`<p><strong>Intensidade:</strong> ${v.intensity}. Essa preferência pode aparecer com mais frequência, mas não determina como você agirá em todas as situações.</p>`}
+    </div>`;
+  }).join("");
+}
+
+function integratedSummary(tr,pr,bf,em){
+  const bfEntries=Object.entries(bf).sort((a,b)=>b[1].percent-a[1].percent);
+  const emEntries=Object.entries(em).sort((a,b)=>b[1].percent-a[1].percent);
+  const strongestBF=bfEntries[0],developBF=bfEntries[bfEntries.length-1];
+  const strongestEM=emEntries[0],developEM=emEntries[emEntries.length-1];
+  const tm=temperamentMeta[tr.pred],ts=temperamentMeta[tr.secondary];
+
+  return `<div class="notice" style="margin-top:18px">
+    <h3>Juntando as peças: o que seus resultados contam sobre você</h3>
+    <p>O conjunto das suas respostas sugere uma combinação de <strong>${tm.label.toLowerCase()}</strong> com influência <strong>${ts.label.toLowerCase()}</strong> e um perfil inspirado no MBTI próximo de <strong>${pr.type} · ${typeNames[pr.type]}</strong>. Isso não é uma definição de quem você é; é uma fotografia do modo como você se percebeu neste preenchimento.</p>
+    <p>Entre os Cinco Grandes Fatores, <strong>${strongestBF[1].label}</strong> apareceu relativamente mais presente (${strongestBF[1].percent}%), enquanto <strong>${developBF[1].label}</strong> apareceu relativamente menos presente (${developBF[1].percent}%). No mapa emocional, <strong>${strongestEM[1].label}</strong> foi o recurso percebido mais frequente e <strong>${developEM[1].label}</strong> é a área que mais merece experimentação e prática.</p>
+    <p>Para a vida acadêmica e profissional, o melhor uso deste relatório é observar situações reais: em que tarefas você rende mais, como reage a pressão, de que forma trabalha em equipe e quais estratégias ajudam quando encontra dificuldade. O resultado não substitui sua experiência, o olhar dos professores nem uma conversa individual.</p>
+  </div>`;
+}
+
+
 let state = defaultState();
 let currentSection = "inicio";
 
 function defaultState(){
   return {
     profile:null,
-    temperament:Array(8).fill(null),
-    personality:Array(24).fill(null),
+    temperament:Array(24).fill(null),
+    personality:Array(40).fill(null),
+    bigFive:Array(50).fill(null),
+    emotional:Array(15).fill(null),
     wheel:{saude:5,familia:5,amigos:5,estudos:5,carreira:5,financas:5,lazer:5,proposito:5},
     project:{deOndeVenho:"",quemSouHoje:"",sonhos5Anos:"",metas12Meses:"",obstaculos:"",plano30Dias:""},
     support:Array(8).fill(null),
-    completed:{temperament:false,personality:false,wheel:false,project:false,support:false},
+    completed:{temperament:false,personality:false,bigfive:false,emotional:false,wheel:false,project:false,support:false},
     submitted:false,
     updatedAt:null
   };
@@ -1248,6 +1295,8 @@ function renderStatic(){
 
   renderTemperQuestions();
   renderPersonalityQuestions();
+  renderBigFive();
+  renderEmotional();
   renderWheel();
   renderProject();
   renderSupport();
@@ -1255,50 +1304,52 @@ function renderStatic(){
 
 function renderTemperQuestions(){
   const form=document.getElementById("temperForm");
-  form.innerHTML=temperamentQuestions.map((item,i)=>`
+  form.innerHTML=temperamentItems.map((item,i)=>`
     <fieldset class="question">
-      <legend>${i+1}. ${item.q} <button type="button" class="read-btn" aria-label="Ouvir pergunta ${i+1}" data-read-temper="${i}">🔊</button></legend>
-      <div class="options">
-        ${item.a.map(([value,label],j)=>`
-          <label class="option">
-            <input type="radio" name="temper-${i}" value="${value}" ${state.temperament[i]===value?"checked":""}
-              aria-label="Alternativa ${j+1}: ${label}">
-            <span>${label}</span>
-          </label>`).join("")}
+      <legend>${i+1}. ${item.text} <button type="button" class="read-btn" aria-label="Ouvir afirmação ${i+1}" data-read-temper="${i}">🔊</button></legend>
+      <div class="scale" aria-label="Escala de 1 a 5">
+        ${[1,2,3,4,5].map(n=>`<label><input type="radio" name="temper-${i}" value="${n}" ${Number(state.temperament[i])===n?"checked":""} aria-label="nota ${n} de 5"><span>${n}</span></label>`).join("")}
       </div>
+      <small>1 = discordo totalmente · 5 = concordo totalmente</small>
     </fieldset>`).join("");
-
   form.querySelectorAll("input").forEach(inp=>inp.addEventListener("change",e=>{
     const i=Number(e.target.name.split("-")[1]);
-    state.temperament[i]=e.target.value;
-    if(state.temperament.every(Boolean)){
-      state.completed.temperament=true;
-      showTemperResult();
-    }
+    state.temperament[i]=Number(e.target.value);
+    if(state.temperament.every(v=>Number(v)>=1)){state.completed.temperament=true;showTemperResult()}
     saveState();
   }));
-  form.querySelectorAll("[data-read-temper]").forEach(btn=>btn.onclick=()=>{
-    const i=Number(btn.dataset.readTemper),item=temperamentQuestions[i];
-    readText(item.q+". "+item.a.map((a,j)=>`Opção ${j+1}: ${a[1]}`).join(". "));
-  });
-  if(state.temperament.every(Boolean)){state.completed.temperament=true;showTemperResult()}
+  form.querySelectorAll("[data-read-temper]").forEach(btn=>btn.onclick=()=>readText(temperamentItems[Number(btn.dataset.readTemper)].text+". Responda de 1, discordo totalmente, a 5, concordo totalmente."));
+  if(state.temperament.every(v=>Number(v)>=1)){state.completed.temperament=true;showTemperResult()}
 }
 
 function calcTemperament(){
+  const sums={sanguineo:0,colerico:0,melancolico:0,fleumatico:0};
   const counts={sanguineo:0,colerico:0,melancolico:0,fleumatico:0};
-  state.temperament.forEach(v=>{if(v)counts[v]++});
-  const ranked=Object.entries(counts).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0]));
-  const pct=Object.fromEntries(Object.entries(counts).map(([k,v])=>[k,Math.round(v/8*1000)/10]));
-  return {counts,pct,pred:ranked[0][0],secondary:ranked[1][0]};
+  temperamentItems.forEach((item,i)=>{
+    const raw=Number(state.temperament[i]||0);
+    if(!raw)return;
+    sums[item.trait]+=item.reverse?(6-raw):raw;
+    counts[item.trait]++;
+  });
+  const pct={};
+  Object.keys(sums).forEach(k=>{const n=counts[k]||6;pct[k]=Math.round(((sums[k]-n)/(n*4)*100)*10)/10});
+  const ranked=Object.keys(pct).sort((a,b)=>pct[b]-pct[a]||a.localeCompare(b));
+  return {sums,pct,pred:ranked[0],secondary:ranked[1]};
 }
 
 function showTemperResult(){
   const r=calcTemperament(),box=document.getElementById("temperResult"),m=temperamentMeta[r.pred],s=temperamentMeta[r.secondary];
   box.hidden=false;
-  box.innerHTML=`<h3>Seu resultado atual</h3>
-    <p><strong>${m.label}</strong> como tendência predominante e <strong>${s.label}</strong> como tendência secundária.</p>
-    ${Object.keys(r.pct).map(k=>`<div style="margin:10px 0"><div style="display:flex;justify-content:space-between"><span>${temperamentMeta[k].label}</span><strong>${r.pct[k]}%</strong></div><div class="bar"><span style="width:${r.pct[k]}%"></span></div></div>`).join("")}
-    <p class="muted">Este resultado é uma linguagem de autoconhecimento, não uma classificação fixa.</p>`;
+  box.innerHTML=`<h3>Seu mapa de temperamentos</h3>
+  <p><strong>${m.label}</strong> aparece como tendência mais alta e <strong>${s.label}</strong> como tendência secundária.</p>
+  <p>${temperamentCombinationText(r)}</p>
+  ${Object.keys(r.pct).map(k=>`<div style="margin:10px 0"><div style="display:flex;justify-content:space-between"><span>${temperamentMeta[k].label}</span><strong>${r.pct[k]}%</strong></div><div class="bar"><span style="width:${r.pct[k]}%"></span></div></div>`).join("")}
+  <div class="grid grid-2" style="margin-top:14px">
+    <div><h3>Recursos que podem aparecer</h3>${listHtml(m.strong)}</div>
+    <div><h3>O que vale experimentar</h3>${listHtml(m.develop)}</div>
+  </div>
+  <p><strong>Em atividades administrativas:</strong> ${m.work.join(", ")} são exemplos de situações em que essas tendências podem ser úteis — sem significar que você só deva atuar nelas.</p>
+  <p class="muted">Este mapa é uma atividade de reflexão educacional. Os quatro estilos podem aparecer em graus diferentes conforme a situação.</p>`;
 }
 
 function renderPersonalityQuestions(){
@@ -1325,9 +1376,12 @@ function renderPersonalityQuestions(){
 }
 
 function scoreDim(slice,first,second){
-  let sum=slice.slice(0,3).reduce((a,b)=>a+Number(b),0);
-  sum+=slice.slice(3).reduce((a,b)=>a+(6-Number(b)),0);
-  const firstPct=Math.round(((sum-6)/24*100)*10)/10;
+  const half=slice.length/2;
+  let sum=slice.slice(0,half).reduce((a,b)=>a+Number(b),0);
+  sum+=slice.slice(half).reduce((a,b)=>a+(6-Number(b)),0);
+  const min=slice.length;
+  const range=slice.length*4;
+  const firstPct=Math.round(((sum-min)/range*100)*10)/10;
   const secondPct=Math.round((100-firstPct)*10)/10;
   const pole=firstPct>=50?first:second;
   const dominant=pole===first?firstPct:secondPct;
@@ -1337,18 +1391,79 @@ function scoreDim(slice,first,second){
 
 function calcPersonality(){
   const a=state.personality.map(Number);
-  const EI=scoreDim(a.slice(0,6),"E","I");
-  const SN=scoreDim(a.slice(6,12),"S","N");
-  const TF=scoreDim(a.slice(12,18),"T","F");
-  const JP=scoreDim(a.slice(18,24),"J","P");
+  const EI=scoreDim(a.slice(0,10),"E","I");
+  const SN=scoreDim(a.slice(10,20),"S","N");
+  const TF=scoreDim(a.slice(20,30),"T","F");
+  const JP=scoreDim(a.slice(30,40),"J","P");
   return {type:EI.pole+SN.pole+TF.pole+JP.pole,dims:{EI,SN,TF,JP}};
 }
 
 function showPersonalityResult(){
-  const r=calcPersonality(),box=document.getElementById("personalityResult");
+  const r=calcPersonality(),box=document.getElementById("personalityResult"),type=r.type;
   box.hidden=false;
-  box.innerHTML=`<h3>${r.type} · ${typeNames[r.type]}</h3><p>${typeDescriptions[r.type]}</p>
-    <p class="muted">Resultado de um questionário original inspirado nas dimensões do MBTI. Não é o instrumento oficial.</p>`;
+  box.innerHTML=`<h3>${type} · ${typeNames[type]}</h3>
+    <p>${typeDescriptions[type]}</p>
+    <p><strong>Como usar este resultado:</strong> o código de quatro letras resume preferências, não capacidades. Você pode agir de modo diferente conforme experiência, contexto, necessidade e aprendizagem.</p>
+    ${mbtiDimensionHtml(r)}
+    <div class="grid grid-2">
+      <div><h3>Recursos que podem aparecer</h3>${listHtml(typeStrengths[type])}</div>
+      <div><h3>Aspectos para experimentar e desenvolver</h3>${listHtml(typeDevelop[type])}</div>
+    </div>
+    <p><strong>Em tarefas de trabalho:</strong> ${typeWork[type].join(", ")} são contextos em que essas preferências podem ser úteis, mas não são uma indicação profissional definitiva.</p>
+    <p class="muted">Resultado de um questionário original inspirado nas dimensões popularizadas pelo MBTI. Não é o instrumento oficial MBTI e não deve ser usado para seleção, diagnóstico ou limitação de possibilidades.</p>`;
+}
+
+function renderBigFive(){
+  const form=document.getElementById("bigFiveForm");
+  form.innerHTML=bigFiveItems.map((item,i)=>`
+    <fieldset class="question"><legend>${i+1}. ${item.text} <button type="button" class="read-btn" data-read-bigfive="${i}" aria-label="Ouvir afirmação ${i+1}">🔊</button></legend>
+      <div class="scale">${[1,2,3,4,5].map(n=>`<label><input type="radio" name="bigfive-${i}" value="${n}" ${Number(state.bigFive[i])===n?"checked":""} aria-label="nota ${n} de 5"><span>${n}</span></label>`).join("")}</div>
+      <small>1 = discordo totalmente · 5 = concordo totalmente</small></fieldset>`).join("");
+  form.querySelectorAll("input").forEach(inp=>inp.addEventListener("change",e=>{
+    const i=Number(e.target.name.split("-")[1]);state.bigFive[i]=Number(e.target.value);
+    if(state.bigFive.every(v=>Number(v)>=1)){state.completed.bigfive=true;showBigFiveResult()}
+    saveState();
+  }));
+  form.querySelectorAll("[data-read-bigfive]").forEach(btn=>btn.onclick=()=>readText(bigFiveItems[Number(btn.dataset.readBigfive)].text+". Responda de 1, discordo totalmente, a 5, concordo totalmente."));
+  if(state.bigFive.every(v=>Number(v)>=1)){state.completed.bigfive=true;showBigFiveResult()}
+}
+
+function calcBigFive(){
+  const out={};
+  bigFiveItems.forEach((item,i)=>{
+    if(!out[item.factor])out[item.factor]={label:item.label,sum:0,n:0};
+    const raw=Number(state.bigFive[i]||0);if(!raw)return;
+    out[item.factor].sum+=item.reverse?(6-raw):raw;out[item.factor].n++;
+  });
+  Object.values(out).forEach(x=>{x.percent=Math.round(((x.sum-x.n)/(x.n*4)*100)*10)/10});
+  return out;
+}
+function traitBand(p){return descriptiveBand(p)}
+function showBigFiveResult(){
+  const r=calcBigFive(),box=document.getElementById("bigFiveResult");box.hidden=false;
+  box.innerHTML=`<h3>Seu perfil nos Cinco Grandes Fatores</h3>
+    <p>Este modelo trabalha com <strong>traços em contínuos</strong>. Nenhuma faixa é “boa” ou “ruim” por si só. O significado depende da situação, e as porcentagens representam somente suas respostas neste questionário — não percentis comparados à população.</p>
+    ${Object.entries(r).map(([factor,x])=>renderBigFiveDetail(factor,x,true)).join("")}
+    <p class="muted">Use o resultado para observar padrões e testar estratégias. Ele não mede inteligência, valor pessoal, aptidão profissional nem produz diagnóstico.</p>`;
+}
+
+function renderEmotional(){
+  const form=document.getElementById("emotionalForm");
+  form.innerHTML=emotionalItems.map((item,i)=>`<fieldset class="question"><legend>${i+1}. ${item.text} <button type="button" class="read-btn" data-read-emotional="${i}" aria-label="Ouvir afirmação ${i+1}">🔊</button></legend><div class="scale">${[1,2,3,4,5].map(n=>`<label><input type="radio" name="emotional-${i}" value="${n}" ${Number(state.emotional[i])===n?"checked":""} aria-label="nota ${n} de 5"><span>${n}</span></label>`).join("")}</div><small>1 = discordo totalmente · 5 = concordo totalmente</small></fieldset>`).join("");
+  form.querySelectorAll("input").forEach(inp=>inp.addEventListener("change",e=>{const i=Number(e.target.name.split("-")[1]);state.emotional[i]=Number(e.target.value);if(state.emotional.every(v=>Number(v)>=1)){state.completed.emotional=true;showEmotionalResult()}saveState()}));
+  form.querySelectorAll("[data-read-emotional]").forEach(btn=>btn.onclick=()=>readText(emotionalItems[Number(btn.dataset.readEmotional)].text+". Responda de 1, discordo totalmente, a 5, concordo totalmente."));
+  if(state.emotional.every(v=>Number(v)>=1)){state.completed.emotional=true;showEmotionalResult()}
+}
+function calcEmotional(){
+  const out={};emotionalItems.forEach((item,i)=>{if(!out[item.domain])out[item.domain]={label:item.label,sum:0,n:0};const raw=Number(state.emotional[i]||0);if(!raw)return;out[item.domain].sum+=item.reverse?(6-raw):raw;out[item.domain].n++});
+  Object.values(out).forEach(x=>x.percent=Math.round(((x.sum-x.n)/(x.n*4)*100)*10)/10);return out;
+}
+function showEmotionalResult(){
+  const r=calcEmotional(),box=document.getElementById("emotionalResult");box.hidden=false;
+  box.innerHTML=`<h3>Seu mapa de autoconhecimento emocional</h3>
+    <p>Este bloco observa habilidades que você percebe em si neste momento. Elas podem mudar com contexto, prática, apoio e experiência. Uma pontuação menor não significa transtorno ou incapacidade.</p>
+    ${Object.entries(r).map(([domain,x])=>renderEmotionalDetail(domain,x,true)).join("")}
+    <p class="muted">Este resultado é educacional. Não é diagnóstico, triagem psicológica ou avaliação clínica.</p>`;
 }
 
 function renderWheel(){
@@ -1438,13 +1553,13 @@ function renderSupport(){
 }
 
 function updateProgress(){
-  const keys=["temperament","personality","wheel","project","support"];
-  const done=keys.filter(k=>state.completed[k]).length,pct=done*20;
+  const keys=["temperament","personality","bigfive","emotional","wheel","project","support"];
+  const done=keys.filter(k=>state.completed[k]).length,pct=Math.round(done/keys.length*100);
   document.getElementById("progressBar").style.width=pct+"%";
   document.getElementById("progressText").textContent=pct+"%";
-  document.getElementById("stars").textContent=Array.from({length:5},(_,i)=>i<done?"★":"☆").join(" ");
-  document.getElementById("stars").setAttribute("aria-label",`${done} de 5 etapas concluídas`);
-  const names=["Temperamentos","Personalidade","Roda da vida","Projeto de vida","Apoio"];
+  document.getElementById("stars").textContent=Array.from({length:7},(_,i)=>i<done?"★":"☆").join(" ");
+  document.getElementById("stars").setAttribute("aria-label",`${done} de 7 etapas concluídas`);
+  const names=["Temperamentos","Personalidade","Cinco fatores","Autoconhecimento emocional","Roda da vida","Projeto de vida","Apoio"];
   document.getElementById("trail").innerHTML=names.map((n,i)=>`<div class="trail-step ${i<done?"done":""}">${i<done?"★":"☆"}<br>${n}</div>`).join("");
 }
 
@@ -1490,37 +1605,61 @@ function renderReports(){
   const wrap=document.getElementById("reportsContainer");
   let out="";
 
-  if(state.completed.temperament&&state.completed.personality){
-    const tr=calcTemperament(),tm=temperamentMeta[tr.pred],ts=temperamentMeta[tr.secondary],pr=calcPersonality(),type=pr.type;
+  if(state.completed.temperament&&state.completed.personality&&state.completed.bigfive&&state.completed.emotional){
+    const tr=calcTemperament(),tm=temperamentMeta[tr.pred],ts=temperamentMeta[tr.secondary],pr=calcPersonality(),type=pr.type,bf=calcBigFive(),em=calcEmotional();
     out+=`<article class="report" id="report-1">
       <div class="eyebrow">Relatório 1</div>
-      <h2>Personalidade e temperamentos</h2>
-      <p><strong>Importante:</strong> este relatório mostra tendências, não limites. O questionário de personalidade é original e inspirado nas quatro dimensões popularizadas pelo MBTI; não é o teste oficial.</p>
-      <h3>Temperamento</h3>
-      <p>Sua tendência predominante foi <strong>${tm.label}</strong>, com <strong>${ts.label}</strong> como tendência secundária.</p>
+      <h2>Meu perfil de autoconhecimento</h2>
+      <p><strong>Como ler este relatório:</strong> os resultados descrevem tendências do seu autorrelato neste momento. Eles não definem sua personalidade inteira, não medem seu valor, não indicam diagnóstico e não limitam escolhas de estudo ou profissão.</p>
+
+      <h3>1. Temperamentos: sua combinação predominante</h3>
+      <p>Sua tendência mais alta foi <strong>${tm.label}</strong>, seguida de <strong>${ts.label}</strong>.</p>
+      <p>${temperamentCombinationText(tr)}</p>
       ${Object.keys(tr.pct).map(k=>`<div style="margin:9px 0"><div style="display:flex;justify-content:space-between"><span>${temperamentMeta[k].label}</span><strong>${tr.pct[k]}%</strong></div><div class="bar"><span style="width:${tr.pct[k]}%"></span></div></div>`).join("")}
       <div class="grid grid-2" style="margin-top:16px">
-        <div><h3>Pontos fortes possíveis</h3>${listHtml(tm.strong)}</div>
-        <div><h3>O que pode desenvolver</h3>${listHtml(tm.develop)}</div>
+        <div><h3>Recursos que podem aparecer</h3>${listHtml(tm.strong)}</div>
+        <div><h3>Aspectos para desenvolver</h3>${listHtml(tm.develop)}</div>
       </div>
-      <h3>Tarefas administrativas em que esse estilo pode ajudar</h3>${listHtml(tm.work)}
-      <p><strong>Exemplos populares e não oficiais:</strong> ${tm.famous.join(" e ")} aparecem com frequência em listas informais associadas a esse temperamento. Isso não significa que tenham feito este teste ou que a classificação seja comprovada.</p>
+      <p><strong>Como isso pode aparecer nas tarefas administrativas:</strong> ${tm.work.join(", ")}. Esses são exemplos de contextos em que suas tendências podem ajudar, e não uma indicação de carreira.</p>
+      <p><strong>Exemplos populares e não oficiais:</strong> ${tm.famous.join(" e ")} aparecem em listas informais associadas a esse temperamento. Não há comprovação de que tenham feito este teste.</p>
+
       <hr>
-      <h3>${type} · ${typeNames[type]}</h3>
+      <h3>2. Personalidade inspirada no MBTI: ${type} · ${typeNames[type]}</h3>
       <p>${typeDescriptions[type]}</p>
-      ${Object.entries(pr.dims).map(([d,v])=>`<div style="margin:12px 0"><div style="display:flex;justify-content:space-between"><span>${d}: <strong>${v.pole}</strong> — ${v.intensity}</span><strong>${v.dominant}%</strong></div><div class="bar"><span style="width:${v.dominant}%"></span></div><small>${dimensionText[v.pole]}</small></div>`).join("")}
+      <p>O tipo resume a direção predominante das quatro dimensões. Quando uma pontuação fica próxima de 50%, o resultado indica equilíbrio entre os polos, e não uma preferência forte.</p>
+      ${mbtiDimensionHtml(pr)}
       <div class="grid grid-2">
         <div><h3>Pontos fortes possíveis</h3>${listHtml(typeStrengths[type])}</div>
         <div><h3>O que pode desenvolver</h3>${listHtml(typeDevelop[type])}</div>
       </div>
-      <h3>Funções de trabalho que podem combinar com essas tendências</h3>${listHtml(typeWork[type])}
-      <p><strong>Exemplos populares e não oficiais:</strong> ${popularExamples[type].join(" e ")} são frequentemente associados a ${type} em listas de tipologia. Não há comprovação de que tenham realizado o teste oficial.</p>
-      <h3>Para refletir</h3>
-      <ol><li>Que ponto deste resultado realmente aparece no seu comportamento em sala e no trabalho?</li><li>Qual característica você gostaria de desenvolver durante o curso?</li><li>Em que tipo de tarefa administrativa você gostaria de testar suas habilidades?</li></ol>
+      <h3>Onde essas tendências podem ser úteis</h3>
+      ${listHtml(typeWork[type])}
+      <p><strong>Exemplos populares e não oficiais:</strong> ${popularExamples[type].join(" e ")} são frequentemente associados a ${type} em listas de tipologia. Isso não significa que tenham realizado um teste oficial nem comprova a classificação.</p>
+
+      <hr>
+      <h3>3. Cinco Grandes Fatores</h3>
+      <p>Os Cinco Grandes Fatores são apresentados como contínuos. A porcentagem indica a posição das suas próprias respostas na escala utilizada aqui; <strong>não é um percentil comparado a outras pessoas</strong>.</p>
+      ${Object.entries(bf).map(([factor,x])=>renderBigFiveDetail(factor,x)).join("")}
+
+      <hr>
+      <h3>4. Autoconhecimento emocional</h3>
+      <p>Este bloco mostra como você percebe três habilidades treináveis: reconhecer emoções, regular respostas em situações difíceis e recuperar o ritmo ou buscar apoio.</p>
+      ${Object.entries(em).map(([domain,x])=>renderEmotionalDetail(domain,x)).join("")}
+      <p class="muted">Se alguma resposta despertar preocupação pessoal, o resultado não deve ser interpretado sozinho. Procure conversar com um adulto de confiança e, quando necessário, com um profissional qualificado.</p>
+
+      ${integratedSummary(tr,pr,bf,em)}
+
+      <h3 style="margin-top:22px">Para transformar resultado em aprendizagem</h3>
+      <ol>
+        <li>Que parte deste relatório combina mais com situações que você realmente vive em sala, em casa ou no trabalho?</li>
+        <li>Qual recurso pessoal você gostaria de usar mais conscientemente nas próximas semanas?</li>
+        <li>Qual habilidade você quer praticar durante a UC1 e como perceberá que está melhorando?</li>
+        <li>Em que situação administrativa você gostaria de experimentar uma função diferente da que costuma escolher?</li>
+      </ol>
       <div class="report-actions"><button class="btn btn-secondary" onclick="printReport('report-1')">🖨️ Imprimir / salvar PDF</button></div>
     </article>`;
   }else{
-    out+=`<article class="report"><h3>Relatório 1 ainda não disponível</h3><p>Conclua Temperamentos e Personalidade.</p></article>`;
+    out+=`<article class="report"><h3>Relatório 1 ainda não disponível</h3><p>Conclua Temperamentos, Personalidade, Cinco Fatores e Autoconhecimento Emocional.</p></article>`;
   }
 
   if(state.completed.wheel){
@@ -1651,6 +1790,8 @@ document.getElementById("finishBtn").onclick=async()=>{
   const missing=[];
   if(!state.completed.temperament)missing.push("Temperamentos");
   if(!state.completed.personality)missing.push("Personalidade");
+  if(!state.completed.bigfive)missing.push("Cinco Fatores");
+  if(!state.completed.emotional)missing.push("Autoconhecimento emocional");
   if(!state.completed.wheel)missing.push("Roda da Vida");
   if(!state.completed.project)missing.push("Projeto de Vida");
   if(!state.completed.support)missing.push("Apoio");
@@ -1668,6 +1809,8 @@ document.getElementById("finishBtn").onclick=async()=>{
     etapaAtual:"Concluído",
     temperamentos:state.temperament,
     personalidade:state.personality.map(Number),
+    bigFive:state.bigFive.map(Number),
+    emocional:state.emotional.map(Number),
     roda:state.wheel,
     projeto:state.project,
     apoio:state.support.map(Number)
