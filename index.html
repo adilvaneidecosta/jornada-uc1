@@ -316,9 +316,194 @@ strong{font-weight:900}
   .topbar > div:last-child .btn{flex:1}
 }
 
+
+/* ===== CORREÇÃO DE CORTE DE TELA v1.4 ===== */
+
+/* reserva espaço real para a barra de acessibilidade fixa */
+:root{
+  --access-bar-height: 74px;
+}
+
+html{
+  scroll-padding-top: calc(var(--access-bar-height) + 18px);
+}
+
+body{
+  padding-top: var(--access-bar-height);
+}
+
+/* barra fixa sem cobrir o conteúdo */
+.accessibility{
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  min-height: var(--access-bar-height);
+}
+
+/* evita que títulos focados fiquem escondidos */
+main,
+section,
+.section,
+.section-title,
+h1,
+h2,
+h3{
+  scroll-margin-top: calc(var(--access-bar-height) + 22px);
+}
+
+/* layout principal */
+.app-shell{
+  padding-top: 18px !important;
+}
+
+.layout{
+  align-items: start;
+  min-height: calc(100vh - var(--access-bar-height) - 38px);
+}
+
+/* menu lateral: acompanha a tela sem cortar conteúdo */
+.sidebar{
+  position: sticky;
+  top: calc(var(--access-bar-height) + 14px) !important;
+  max-height: calc(100vh - var(--access-bar-height) - 28px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+}
+
+/* conteúdo sempre começa visível */
+.content{
+  padding-top: 4px;
+  min-width: 0;
+}
+
+.content > section:not([hidden]),
+.content > .section:not([hidden]){
+  animation: none !important;
+}
+
+/* título da página */
+.section-title,
+.content h1:first-child{
+  margin-top: 0 !important;
+  padding-top: 6px;
+  line-height: 1.08 !important;
+}
+
+/* home */
+#welcomeTitle,
+#home h1,
+#inicio h1{
+  margin-top: 0 !important;
+  padding-top: 4px !important;
+  line-height: 1.08 !important;
+}
+
+/* cartões não ultrapassam a largura disponível */
+.grid,
+.stage-grid,
+.pillars-grid,
+.cards-grid{
+  min-width: 0;
+  max-width: 100%;
+}
+
+.grid > *,
+.stage-grid > *,
+.pillars-grid > *,
+.cards-grid > *{
+  min-width: 0;
+}
+
+/* evita cortes em textos longos */
+.card,
+.stage,
+.pillar,
+.notice,
+.report,
+.result-box{
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* telas médias */
+@media (max-width: 1100px){
+  :root{
+    --access-bar-height: 118px;
+  }
+
+  .layout{
+    grid-template-columns: 235px minmax(0,1fr) !important;
+    gap: 16px !important;
+  }
+
+  .sidebar{
+    top: calc(var(--access-bar-height) + 10px) !important;
+    max-height: calc(100vh - var(--access-bar-height) - 20px);
+  }
+
+  .stage-grid{
+    grid-template-columns: repeat(4,minmax(0,1fr)) !important;
+  }
+}
+
+/* tablet/celular: barra deixa de ser fixa e menu não prende a tela */
+@media (max-width: 820px){
+  :root{
+    --access-bar-height: 0px;
+  }
+
+  body{
+    padding-top: 0 !important;
+  }
+
+  .accessibility{
+    position: relative !important;
+    min-height: 0;
+  }
+
+  .layout{
+    display: block !important;
+    min-height: auto;
+  }
+
+  .sidebar{
+    position: relative !important;
+    top: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    margin-bottom: 14px;
+  }
+
+  .content{
+    width: 100% !important;
+  }
+
+  .stage-grid{
+    grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+  }
+}
+
+/* celular pequeno */
+@media (max-width: 520px){
+  .stage-grid,
+  .pillars-grid,
+  .cards-grid{
+    grid-template-columns: 1fr !important;
+  }
+
+  .content h1,
+  .section-title{
+    font-size: clamp(1.75rem, 9vw, 2.35rem) !important;
+  }
+}
+
 </style>
 </head>
 <body>
+<!-- layout-fix-v1.4 -->
 <a class="skip-link" href="#main">Ir para o conteúdo</a>
 
 <div class="accessibility" aria-label="Ferramentas de acessibilidade">
