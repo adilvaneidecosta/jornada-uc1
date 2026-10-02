@@ -3,9 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <meta name="theme-color" content="#b94a24">
 <meta name="description" content="Jornada de Autoconhecimento – UC1 Desenvolvimento Socioemocional">
-<title>Jornada de Autoconhecimento | UC1</title>
+<title>Jornada de Autoconhecimento | UC1 v1.8</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -500,10 +503,24 @@ h3{
   }
 }
 
+
+@media print{
+  body{padding-top:0!important}
+  .section.printing.print-all .report.print-target{
+    display:block!important;
+    break-after:page;
+    page-break-after:always;
+  }
+  .section.printing.print-all .report.print-target:last-of-type{
+    break-after:auto;
+    page-break-after:auto;
+  }
+}
+
 </style>
 </head>
 <body>
-<!-- uc1-v1.7-projeto-flexivel-envio-confirmado -->
+<!-- UC1 FRONTEND 1.8.0 — PROJETO FLEXÍVEL + SALVAMENTO PARCIAL -->
 <a class="skip-link" href="#main">Ir para o conteúdo</a>
 
 <div class="accessibility" aria-label="Ferramentas de acessibilidade">
@@ -685,7 +702,7 @@ h3{
           <div class="eyebrow">Etapa 6 de 7</div>
           <h1 tabindex="-1" class="section-title">Mapa da vida e projeto de vida</h1>
           <p class="lead">Responda do seu jeito. Pode usar <strong>palavras, frases curtas ou tópicos</strong>. Não precisa escrever texto longo ou dissertação. O objetivo é registrar ideias que façam sentido para você.</p>
-          <div class="notice"><strong>Importante:</strong> não existe quantidade mínima de linhas. Uma resposta curta e objetiva já vale, desde que você escreva alguma coisa em cada pergunta.</div>
+          <div class="notice"><strong>Importante:</strong> não existe mínimo de linhas nem de caracteres. Você pode responder com <strong>uma palavra, uma frase curta ou tópicos</strong>. O Projeto de Vida <strong>não impede o envio dos demais testes</strong>; responda o que fizer sentido para você.</div>
         </div>
         <form id="projectForm"></form>
       </section>
@@ -722,14 +739,17 @@ h3{
         <div class="section-head">
           <div class="eyebrow">Seus resultados</div>
           <h1 tabindex="-1" class="section-title">Meus relatórios</h1>
-          <p class="lead">Os relatórios aparecem à medida que você conclui as etapas. O Relatório 1 traz uma leitura detalhada dos seus resultados, com exemplos, aplicações nos estudos e no trabalho, ações práticas e perguntas de reflexão. Você pode imprimir ou salvar como PDF.</p>
+          <p class="lead">Os relatórios aparecem à medida que você conclui as etapas. Você pode imprimir cada um separadamente ou gerar todos juntos em um único PDF.</p>
+          <div class="report-actions" style="margin-top:14px">
+            <button class="btn btn-primary" type="button" id="printAllReportsBtn">🖨️ Imprimir / salvar TODOS os relatórios</button>
+          </div>
         </div>
         <div id="reportsContainer"></div>
       </section>
     </main>
   </div>
 
-  <p class="footer-note">UC1 – Desenvolvimento Socioemocional · Autoconhecimento, projeto de vida e acompanhamento pedagógico.</p>
+  <p class="footer-note">UC1 – Desenvolvimento Socioemocional · Autoconhecimento, projeto de vida e acompanhamento pedagógico. <strong>Versão 1.8.0</strong></p>
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -1346,7 +1366,8 @@ function saveState(show=false){
   catch(e){console.warn("Não foi possível salvar no aparelho.",e)}
   updateProgress();
   renderReports();
-  if(show) toast("Progresso salvo neste aparelho.");
+  if(state.profile) scheduleDraftSync();
+  if(show) toast("Progresso salvo neste aparelho e enviado como rascunho.");
 }
 
 function toast(msg){
@@ -1357,8 +1378,38 @@ function toast(msg){
 
 function safeText(v){return String(v??"").trim()}
 
+function projectAnsweredCount(){
+  return projectQuestions.filter(([k])=>safeText(state.project[k]).length>0).length;
+}
+
 function isProjectComplete(){
-  return projectQuestions.every(([k])=>safeText(state.project[k]).length>0);
+  return projectAnsweredCount()===projectQuestions.length;
+}
+
+function answeredCount(arr,min=1,max=5){
+  if(!Array.isArray(arr))return 0;
+  return arr.filter(v=>{
+    const n=Number(v);
+    return Number.isFinite(n)&&n>=min&&n<=max;
+  }).length;
+}
+
+function completionFractions(){
+  return {
+    temperament:answeredCount(state.temperament)/24,
+    personality:answeredCount(state.personality)/40,
+    bigfive:answeredCount(state.bigFive)/50,
+    emotional:answeredCount(state.emotional)/15,
+    wheel:state.completed.wheel?1:0,
+    project:projectAnsweredCount()/projectQuestions.length,
+    support:answeredCount(state.support)/8
+  };
+}
+
+function calculateProgressPercent(){
+  const f=completionFractions();
+  const values=Object.values(f);
+  return Math.round(values.reduce((a,b)=>a+b,0)/values.length*100);
 }
 
 function recomputeCompletionFromAnswers(){
@@ -1827,6 +1878,38 @@ function drawRadar(){
   document.getElementById("radarDescription").textContent="Descrição do gráfico: "+desc+".";
 }
 
+let draftTimer=null;
+let draftSending=false;
+
+function currentStageName(){
+  return document.querySelector("#sec-"+currentSection)?.dataset.title||currentSection||"Início";
+}
+
+function buildDraftPayload(){
+  return backendPayload("rascunho",{
+    progresso:calculateProgressPercent(),
+    etapaAtual:currentStageName(),
+    temperamentos:state.temperament,
+    personalidade:state.personality,
+    bigFive:state.bigFive,
+    emocional:state.emotional,
+    roda:state.wheel,
+    projeto:state.project,
+    apoio:state.support
+  });
+}
+
+function scheduleDraftSync(delay=1800){
+  if(!state.profile)return;
+  clearTimeout(draftTimer);
+  draftTimer=setTimeout(async()=>{
+    if(draftSending)return;
+    draftSending=true;
+    try{await sendToBackend(buildDraftPayload());}
+    finally{draftSending=false;}
+  },delay);
+}
+
 function renderProject(){
   // Reavalia também respostas antigas salvas no navegador.
   state.completed.project=isProjectComplete();
@@ -1838,7 +1921,7 @@ function renderProject(){
         <button type="button" class="read-btn" data-read-project="${key}" aria-label="Ouvir pergunta ${i+1}">🔊</button>
       </div>
       <p class="muted">${help}</p>
-      <textarea id="proj-${key}" maxlength="4000" rows="3" placeholder="Pode responder com palavras, frases curtas ou tópicos.">${escapeHtml(state.project[key]||"")}</textarea>
+      <textarea id="proj-${key}" maxlength="4000" rows="2" placeholder="Ex.: faculdade; emprego; ajudar minha família; economizar. Pode ser curto.">${escapeHtml(state.project[key]||"")}</textarea>
     </div>`).join("");
   projectQuestions.forEach(([key,q,help])=>{
     const el=document.getElementById("proj-"+key);
@@ -1871,14 +1954,34 @@ function renderSupport(){
 }
 
 function updateProgress(){
-  const keys=["temperament","personality","bigfive","emotional","wheel","project","support"];
-  const done=keys.filter(k=>state.completed[k]).length,pct=Math.round(done/keys.length*100);
+  recomputeCompletionFromAnswers();
+  const fractions=completionFractions();
+  const pct=calculateProgressPercent();
+
   document.getElementById("progressBar").style.width=pct+"%";
   document.getElementById("progressText").textContent=pct+"%";
-  document.getElementById("stars").textContent=Array.from({length:7},(_,i)=>i<done?"★":"☆").join(" ");
-  document.getElementById("stars").setAttribute("aria-label",`${done} de 7 etapas concluídas`);
-  const names=["Temperamentos","Personalidade","Cinco fatores","Autoconhecimento emocional","Roda da vida","Projeto de vida","Apoio"];
-  document.getElementById("trail").innerHTML=names.map((n,i)=>`<div class="trail-step ${i<done?"done":""}">${i<done?"★":"☆"}<br>${n}</div>`).join("");
+
+  const keys=["temperament","personality","bigfive","emotional","wheel","project","support"];
+  const done=keys.filter(k=>fractions[k]>=1).length;
+  document.getElementById("stars").textContent=keys.map(k=>fractions[k]>=1?"★":"☆").join(" ");
+  document.getElementById("stars").setAttribute("aria-label",`${done} de 7 etapas totalmente concluídas`);
+
+  const names=[
+    ["temperament","Temperamentos",""],
+    ["personality","Personalidade",""],
+    ["bigfive","Cinco fatores",""],
+    ["emotional","Autoconhecimento emocional",""],
+    ["wheel","Roda da vida",""],
+    ["project","Projeto de vida",`${projectAnsweredCount()}/6`],
+    ["support","Apoio",""]
+  ];
+
+  document.getElementById("trail").innerHTML=names.map(([k,n,detail])=>{
+    const complete=fractions[k]>=1;
+    const partial=fractions[k]>0&&fractions[k]<1;
+    const icon=complete?"★":partial?"◐":"☆";
+    return `<div class="trail-step ${complete?"done":""}">${icon}<br>${n}${detail?`<br><small>${detail} respondidas</small>`:""}</div>`;
+  }).join("");
 }
 
 function escapeHtml(s){
@@ -1975,7 +2078,7 @@ function renderReports(){
         <li>Qual habilidade você quer praticar durante a UC1 e como perceberá que está melhorando?</li>
         <li>Em que situação administrativa você gostaria de experimentar uma função diferente da que costuma escolher?</li>
       </ol>
-      <div class="report-actions"><button class="btn btn-secondary" onclick="printReport('report-1')">🖨️ Imprimir / salvar PDF</button></div>
+      <div class="report-actions"><button class="btn btn-secondary" onclick="printReport('report-1')">🖨️ Imprimir só este relatório</button></div>
     </article>`;
   }else{
     out+=`<article class="report"><h3>Relatório 1 ainda não disponível</h3><p>Conclua Temperamentos, Personalidade, Cinco Fatores e Autoconhecimento Emocional.</p></article>`;
@@ -2002,21 +2105,21 @@ function renderReports(){
         <div><h3>Prioridades</h3>${w.priority.map(v=>{const r=reflectionFor(v,true);return `<p><strong>${v.label} (${v.value})</strong><br>${r.q}<br><em>Ação da semana:</em> ${r.a}</p>`}).join("")}</div>
       </div>
       <p>Você pode refazer a Roda da Vida depois de alguns meses e comparar o que mudou.</p>
-      <div class="report-actions"><button class="btn btn-secondary" onclick="printReport('report-2')">🖨️ Imprimir / salvar PDF</button></div>
+      <div class="report-actions"><button class="btn btn-secondary" onclick="printReport('report-2')">🖨️ Imprimir só este relatório</button></div>
     </article>`;
   }else{
     out+=`<article class="report"><h3>Relatório 2 ainda não disponível</h3><p>Preencha sua Roda da Vida.</p></article>`;
   }
 
-  if(state.completed.project){
+  if(projectAnsweredCount()>0){
     out+=`<article class="report" id="report-3">
       <div class="eyebrow">Relatório 3</div>
       <h2>Meu Projeto de Vida</h2>
-      ${projectQuestions.map(([k,q])=>`<h3>${q}</h3><p>${escapeHtml(state.project[k]).replace(/\n/g,"<br>")}</p>`).join("")}
-      <div class="report-actions"><button class="btn btn-secondary" onclick="printReport('report-3')">🖨️ Imprimir / salvar PDF</button></div>
+      ${projectQuestions.map(([k,q])=>`<h3>${q}</h3><p>${safeText(state.project[k])?escapeHtml(state.project[k]).replace(/\n/g,"<br>"):"<em>Não informado.</em>"}</p>`).join("")}
+      <div class="report-actions"><button class="btn btn-secondary" onclick="printReport('report-3')">🖨️ Imprimir só este relatório</button></div>
     </article>`;
   }else{
-    out+=`<article class="report"><h3>Relatório 3 ainda não disponível</h3><p>Há pelo menos uma pergunta do Projeto de Vida sem resposta. Pode preencher com uma palavra, frase curta ou tópico — não existe mínimo de linhas.</p></article>`;
+    out+=`<article class="report"><h3>Relatório 3 ainda não disponível</h3><p>Escreva pelo menos uma ideia no Projeto de Vida. Pode ser uma palavra, frase curta ou tópico.</p></article>`;
   }
   wrap.innerHTML=out;
 }
@@ -2026,9 +2129,27 @@ function printReport(id){
   if(!report)return;
   section.classList.add("printing");report.classList.add("print-target");
   window.print();
-  setTimeout(()=>{section.classList.remove("printing");report.classList.remove("print-target")},300);
+  setTimeout(()=>{section.classList.remove("printing");report.classList.remove("print-target")},500);
 }
 window.printReport=printReport;
+
+function printAllReports(){
+  renderReports();
+  const section=document.getElementById("sec-relatorios");
+  const reports=[...section.querySelectorAll(".report[id]")];
+  if(!reports.length){
+    toast("Ainda não há relatórios disponíveis para imprimir.");
+    return;
+  }
+  section.classList.add("printing","print-all");
+  reports.forEach(r=>r.classList.add("print-target"));
+  window.print();
+  setTimeout(()=>{
+    section.classList.remove("printing","print-all");
+    reports.forEach(r=>r.classList.remove("print-target"));
+  },500);
+}
+window.printAllReports=printAllReports;
 
 function switchSection(name){
   currentSection=name;
@@ -2056,6 +2177,8 @@ function showApp(){
   document.getElementById("helloMeta").textContent=p.code+" · turma vinculada automaticamente";
   document.getElementById("firstName").textContent=first;
   renderStatic();updateProgress();renderReports();
+  // Se já havia respostas salvas neste aparelho, envia um rascunho após abrir.
+  setTimeout(()=>scheduleDraftSync(200),300);
 }
 
 function showLogin(){
@@ -2103,16 +2226,13 @@ document.getElementById("loginForm").addEventListener("submit",async e=>{
   showApp();
 });
 
-document.getElementById("saveNowBtn").onclick=()=>{
+document.getElementById("saveNowBtn").onclick=async()=>{
   recomputeCompletionFromAnswers();
   saveState(true);
-  const total=Object.keys(state.completed).length;
-  const done=Object.values(state.completed).filter(Boolean).length;
-  sendToBackend(backendPayload("progresso",{
-    progresso:Math.round(done/total*100),
-    etapaAtual:document.querySelector("#sec-"+currentSection)?.dataset.title||currentSection
-  }));
+  await sendToBackend(buildDraftPayload());
 };
+
+document.getElementById("printAllReportsBtn").onclick=printAllReports;
 
 document.getElementById("logoutBtn").onclick=()=>{
   if(confirm("Sair desta tela? Seu progresso continuará salvo neste aparelho."))showLogin();
@@ -2128,12 +2248,6 @@ document.getElementById("finishBtn").onclick=async()=>{
   if(!state.completed.bigfive)missing.push("Cinco Fatores");
   if(!state.completed.emotional)missing.push("Autoconhecimento emocional");
   if(!state.completed.wheel)missing.push("Roda da Vida");
-  if(!state.completed.project){
-    const faltam=projectQuestions
-      .filter(([k])=>!safeText(state.project[k]))
-      .map(([,q])=>q);
-    missing.push("Projeto de Vida ("+faltam.length+" pergunta"+(faltam.length===1?"":"s")+" sem resposta)");
-  }
   if(!state.completed.support)missing.push("Apoio");
 
   if(missing.length){
@@ -2143,9 +2257,12 @@ document.getElementById("finishBtn").onclick=async()=>{
   }
 
   st.className="status show";
-  st.textContent="Enviando seus resultados para processamento…";
+  const projetoParcial=projectAnsweredCount()<projectQuestions.length;
+  st.textContent=projetoParcial
+    ?"Enviando os testes. Seu Projeto de Vida será enviado exatamente como está, mesmo com respostas curtas ou campos em branco…"
+    :"Enviando seus resultados para processamento…";
   const payload=backendPayload("finalizar",{
-    progresso:100,
+    progresso:calculateProgressPercent(),
     etapaAtual:"Concluído",
     temperamentos:state.temperament,
     personalidade:state.personality.map(Number),
